@@ -3,6 +3,11 @@
  * Date: 10/28/11
  * Time: 12:55 AM
  */
+'use strict';
+
+Ext.namespace('BKAdmin.layout');
+Ext.Loader.setPath('BKAdmin', './js');
+
 Ext.application({
     name: 'BKAdmin',
 
@@ -13,16 +18,11 @@ Ext.application({
     ],
 
     launch: function() {
-        Ext.create('Ext.container.Viewport', {
-            layout: 'fit',
-            items: [
-                {
-                    xtype: 'panel',
-                    title: 'Users',
-                    html : 'List of users will go here'
-                }
-            ]
-        });
+        Blogkit.util.TemplateManager.initialize('template');
+
+        Ext.create('BKAdmin.view.Viewport');
+
+
     }
 });
 
