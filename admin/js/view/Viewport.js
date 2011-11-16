@@ -26,9 +26,18 @@ Ext.define('BKAdmin.view.Viewport', {
         this.callParent(arguments);
         var request = Blogkit.util.TemplateManager.requestTemplate('basic.main');
 
-        request.done(Ext.bind(function(template){
-            this.down('#MainDiv').update(template);
-        }, this));
+        request.done(Ext.bind(this.installTemplate, this));
+
+        var aaa = 1;
+    },
+
+    installTemplate: function(template){
+        var $mainDiv = this.down('#MainDiv');
+        $mainDiv.update(template);
+
+        Ext.create('BKAdmin.view.MainTabPanel', {renderTo: $($mainDiv.getEl().dom).find('#mainTabPanelArea')[0]});
+//        this.add(Ext.create('BKAdmin.view.MainTabPanel', {renderTo: $($mainDiv.getEl().dom).find('#mainTabPanelArea')[0]}));
+
 
         var aaa = 1;
     }
