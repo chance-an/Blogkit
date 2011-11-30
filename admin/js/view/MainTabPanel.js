@@ -11,21 +11,8 @@ Ext.define('BKAdmin.view.MainTabPanel', {
     requires: ['BKAdmin.layout.Percentage'],
 
 
-    title : 'Edit User',
-    activeTab: 0,
     layout: 'percentage',
-
-    items: [{
-        title: 'Foo',
-        html: 'aaa'
-    }, {
-        title: 'Bar',
-        html: 'bbb',
-        tabConfig: {
-            title: 'Custom Title',
-            tooltip: 'A button tooltip'
-        }
-    }],
+    plain: true,
 
     constructor: function(){
         this.callParent(arguments);

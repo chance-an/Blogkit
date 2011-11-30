@@ -3,6 +3,7 @@
  * Date: 10/28/11
  * Time: 12:55 AM
  */
+
 'use strict';
 
 Ext.Loader.setConfig({enabled:true});
@@ -23,9 +24,14 @@ Ext.application({
     launch: function() {
         Blogkit.util.TemplateManager.initialize('template');
 
-        Ext.create('BKAdmin.view.Viewport');
+        var ready = Ext.create('BKAdmin.view.Viewport');
+        ready.done(Ext.bind(this.goToPage, this, ['Login']));
+    },
 
-
+    goToPage: function(page){
+        var controller = this.getController(page);
+        controller.start();
     }
 });
+
 

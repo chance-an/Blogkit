@@ -8,6 +8,10 @@ Ext.define('BKAdmin.view.Viewport', {
     extend: 'Ext.container.Viewport',
     requires: ['BKAdmin.layout.Percentage'],
 
+    config: {
+        ready: null
+    },
+
 
     layout: 'percentage',
     items: [
@@ -17,9 +21,16 @@ Ext.define('BKAdmin.view.Viewport', {
             title: 'Users',
             widthRatio: 0.9,
             cls: "",
-            html: 'aaa'
+            html: 'Loading. Dengzhe, ni ma de.'
         }
     ],
+
+    constructor: function(){
+        this.callParent(arguments);
+        this.setReady(new $.Deferred());
+
+        return this.getReady();
+    },
 
     initComponent: function(){
 
@@ -27,6 +38,10 @@ Ext.define('BKAdmin.view.Viewport', {
         var request = Blogkit.util.TemplateManager.requestTemplate('basic.main');
 
         request.done(Ext.bind(this.installTemplate, this));
+        request.done(Ext.bind(this.setupManualLayoutManager, this));
+        request.done(Ext.bind(function(){
+            this.getReady().resolve();
+        }, this) );
 
         var aaa = 1;
     },
@@ -36,9 +51,23 @@ Ext.define('BKAdmin.view.Viewport', {
         $mainDiv.update(template);
 
         Ext.create('BKAdmin.view.MainTabPanel', {renderTo: $($mainDiv.getEl().dom).find('#mainTabPanelArea')[0]});
-//        this.add(Ext.create('BKAdmin.view.MainTabPanel', {renderTo: $($mainDiv.getEl().dom).find('#mainTabPanelArea')[0]}));
+    },
 
+    setupManualLayoutManager: function(){
+        this.on('afterlayout', this.Events.afterlayout, this);
+        this.doLayout();
+    },
 
-        var aaa = 1;
+    Events: {
+        'afterlayout' : function(container, layout, eOpts){ //this method is for self-adjusting height
+            var $elem = $(this.getEl().dom);
+
+            var $mainTabPanelArea = $elem.find('#mainTabPanelArea');
+            var mainTabPanel = Ext.ComponentQuery.query('#MainTabPanel')[0];
+
+            var newHeight = $('#MainDiv').height() - $elem.find('#footer').collapsedHeight() - $elem.find('#header').collapsedHeight();
+            $mainTabPanelArea.height(newHeight);
+            mainTabPanel.setHeight(newHeight);
+        }
     }
 });
