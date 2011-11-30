@@ -1,0 +1,1 @@
+compass compile --config .\sass\config.rb
