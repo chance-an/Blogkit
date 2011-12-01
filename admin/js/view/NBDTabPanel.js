@@ -9,4 +9,5 @@ Ext.define('BKAdmin.view.NBDTabPanel', {
     constructor: function(){
         this.callParent(arguments);
     }
+
 });

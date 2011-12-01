@@ -11,8 +11,12 @@ Ext.define('BKAdmin.view.MainTabPanel', {
     requires: ['BKAdmin.layout.Percentage'],
 
 
-    layout: 'percentage',
+    layout: 'fit',
     plain: true,
+
+    items:[
+        {title:  'aaa', html: 'test'}
+    ],
 
     constructor: function(){
         this.callParent(arguments);
@@ -20,21 +24,27 @@ Ext.define('BKAdmin.view.MainTabPanel', {
     },
 
     initComponent: function(){
-        this.on('beforerender', this.Events.beforeRender, this);
-        this.on('render', this.Events.render, this);
         this.callParent(arguments);
+        this.on('resize', this.Events.resize, this);
     },
 
     Events: {
-        beforeRender: function(){
-            var aaa = 1;
+        render: function(){
+            var height = $(this.getEl().dom).parent().height();
+            console.log(height);
+//            this.setHeight(height);
             return true;
         },
 
-        render: function(){
-            var height = $(this.getEl().dom).parent().height();
-            this.setHeight(height);
-            return true;
+        resize: function(){
+            var panels = this.query('>panel');
+            $.each(panels, function(index, panel){
+                var element = panel.getEl();
+                if(!element){
+                    return;
+                }
+                panel.setHeight($(element.dom).parent().height());
+            });
         }
     }
 });

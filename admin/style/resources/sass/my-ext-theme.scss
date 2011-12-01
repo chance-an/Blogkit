@@ -20,7 +20,11 @@ $tab-spacing: 5px;
 
 $tabbar-bottom-plain-body-padding: 1px 0 0;
 
+//other predefines
+$button-background-gradient: color_stops(#F0C9EC 0%, #FFF4FC 18.68%, #F4C2E6 68.32%, #FFF4FC 81.32%);
+$panel-background-gradient: color_stops(#C4AFC2 0%, #F6C5EC 3.61%, #FFE7F8 7.1%, #FFE2F6 49.44%, #FEC8F0 70.11%, #9B7C98 100%);
 
+//
 @import 'ext4/default/all';
 
 .#{$prefix}tab-bar {
@@ -67,5 +71,10 @@ $tabbar-bottom-plain-body-padding: 1px 0 0;
 $relative-image-path-for-uis: true; // defaults to "../images/" when true
 
 .#{$prefix}tabpanel-child > .#{$prefix}panel-body{
-    @include background-gradient($tab-background, color_stops(#C4AFC2 0%, #F6C5EC 3.61%, #FFE7F8 7.1%, #FFE2F6 49.44%, #FEC8F0 70.11%, #9B7C98 100%));
+    @include background-gradient($tab-background, $panel-background-gradient);
+}
+
+//independent styles
+.button-gradient{
+    @include background-gradient($base-color, $button-background-gradient);
 }

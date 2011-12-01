@@ -7,10 +7,6 @@
 Ext.define('BKAdmin.controller.Login', {
     extend: 'Ext.app.Controller',
 
-    config:{
-        view: null
-    },
-
     constructor: function(){
         this.callParent(arguments);
         this.suspendEvents(false);
@@ -23,11 +19,11 @@ Ext.define('BKAdmin.controller.Login', {
     start: function(){
         this.resumeEvents();
 
-        if(!this.getView()){
+        var view = Ext.ComponentManager.get('TabPanelLogin');
+        if(!view){
             var mainTabPanel = Ext.ComponentManager.get('MainTabPanel');
-            var view = Ext.create('BKAdmin.view.TabPanelLogin');
+            view = Ext.create('BKAdmin.view.TabPanelLogin');
             mainTabPanel.add(view);
-            this.setView(view);
         }
 
         var aaa = 1;
