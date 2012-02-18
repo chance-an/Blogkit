@@ -26,7 +26,11 @@ Blogkit.util.TemplateManager = (function(){
     }
 
     function _downloadTemplate(groupName, signal){
-        var request = $.ajax(_path + '/' + groupName + '.' + 'html', {
+        var url = _path + '/' + groupName + '.' + 'html';
+
+        //TODO option
+        url+= '?cache=' + Math.random() * 10000;
+        var request = $.ajax(url, {
             type: 'GET'
         });
 
