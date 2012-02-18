@@ -18,7 +18,7 @@ Ext.application({
     appFolder: 'js',
 
     controllers : [
-        'Login'
+        'Login', 'User'
     ],
 
     launch: function() {

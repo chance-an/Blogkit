@@ -15,7 +15,7 @@ Ext.define('BKAdmin.view.MainTabPanel', {
     plain: true,
 
     items:[
-        {title:  'aaa', html: 'test'}
+        {title:  'README', html: 'test'}
     ],
 
     constructor: function(){
@@ -29,13 +29,6 @@ Ext.define('BKAdmin.view.MainTabPanel', {
     },
 
     Events: {
-        render: function(){
-            var height = $(this.getEl().dom).parent().height();
-            console.log(height);
-//            this.setHeight(height);
-            return true;
-        },
-
         resize: function(){
             var panels = this.query('>panel');
             $.each(panels, function(index, panel){
