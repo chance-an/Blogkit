@@ -4,9 +4,9 @@
  * Time: 9:32 PM
  */
 
-Ext.namespace('Blogkit.util');
+BlogKit.namespace('BlogKit.util');
 
-Blogkit.util.TemplateManager = (function(){
+BlogKit.util.TemplateManager = (function(){
     var _path = null;
     var _templateCache = {};
 
