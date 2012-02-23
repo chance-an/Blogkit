@@ -1,0 +1,26 @@
+<project name="AdminApplication" default="dist" basedir=".">
+    <description>
+        simple example build file
+    </description>
+
+    <property environment="env"/>
+    <property name="build" location="build"/>
+
+    <target name="dist" depends="">
+
+    </target>
+
+    <target name="buildLESS" depends="">
+        <exec executable="lessc.cmd">
+            <arg line="style/resources/bootstrap/less/bootstrap.less > style/Hell/bootstrap.css"/>
+        </exec>
+
+        <exec executable="lessc.cmd">
+            <arg line="style/resources/bootstrap/less/responsive.less > style/Hell/bootstrap-responsive.css"/>
+        </exec>
+
+        <exec executable="lessc.cmd">
+            <arg line="style/resources/Hell/style.less > style/Hell/style.css"/>
+        </exec>
+    </target>
+</project>

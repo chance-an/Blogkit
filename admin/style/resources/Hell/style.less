@@ -1,0 +1,15 @@
+@import '../bootstrap/less/mixins.less';
+@import '../bootstrap/less/wells.less';
+
+@panel-color: #E889A6;
+@panel-border-color: #7F2E2C;
+
+.well{
+    background-color: fadeout(@panel-color, 50%);
+}
+
+.panel{
+    .well;
+    border-color: @panel-border-color;
+    .box-shadow(0 0 10px @panel-border-color);
+}
