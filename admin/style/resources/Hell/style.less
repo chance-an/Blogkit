@@ -1,15 +1,54 @@
 @import '../bootstrap/less/mixins.less';
 @import '../bootstrap/less/wells.less';
+@import '../bootstrap/less/variables.less';
 
+@button-text: #B50E81;
+@text-highlight: #FFE7F8;
 @panel-color: #E889A6;
 @panel-border-color: #7F2E2C;
 
+@well-color: #FFE5F7;
 .well{
-    background-color: fadeout(@panel-color, 50%);
+    background-color: @well-color;
+    border-color: #eee darken(#eee, 20%) darken(#eee, 20%) #eee;
 }
 
 .panel{
     .well;
+    background-color: fadeout(@panel-color, 50%);
     border-color: @panel-border-color;
     .box-shadow(0 0 10px @panel-border-color);
+}
+
+#mainTabPanelArea{
+    :first-child.nav-tabs{
+        margin-top: -15px;
+        margin-bottom: 0px;
+
+        + .well{
+          .border-radius(0 0 4px 4px);
+          #gradient > .vertical-three-colors(#F0C9EC, @well-color, 33%, #B282AE);
+          background-color: @well-color;
+        }
+
+        a{
+           border-color: @panel-border-color;
+           border-width: 2px 2px 0px 2px;
+           background-color: fadeout(@panel-color, 50%);
+           margin-bottom: 1px;
+           line-height: @baseLineHeight;
+           font-size: @baseLineHeight * 0.7;
+           color: fadeout(@text-highlight, 30%);
+        }
+        
+        a:hover, li.active a{
+           .border-radius(0);
+            #gradient > .vertical-three-colors(#F0C9EC, #FFF4FC, 33%, #F4C2E6);
+           margin-bottom: -1px;
+           border-left-color: #F0C9EC;
+           border-bottom-color: #F0C9EC;
+           border-bottom-width: 2px;
+           color: @button-text;
+        }
+    }
 }

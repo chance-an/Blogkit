@@ -36,6 +36,19 @@
             var newHeight = $mainTabPanelArea.collapsedHeight();
             height-= newHeight - height;
             $mainTabPanelArea .height(height);
+
+            //resize dependent
+            this._resizeMainPanel($mainTabPanelArea, height);
+        },
+
+        _resizeMainPanel: function($mainTabPanelArea, height){
+            var $navBar = $mainTabPanelArea.find('.nav-tabs');
+            var paddingTop= parseInt($mainTabPanelArea.css('paddingTop'));
+            var paddingBottom = parseInt($mainTabPanelArea.css('paddingTop'));
+            var navBarHeight = $navBar.collapsedHeight();
+
+            height = height - paddingTop - paddingBottom - navBarHeight;
+            $navBar.next().height(height);
         }
     });
 }());
