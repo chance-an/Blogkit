@@ -11,7 +11,7 @@ BlogKit.util.TemplateManager = (function(){
     var _templateCache = {};
 
     var _$uiIframe = null;
-    var _$iframeDocument = null;
+    var _iframeDocument = null;
 
     function _parseRequest(request){
         if(typeof request == 'string'){
@@ -46,11 +46,12 @@ BlogKit.util.TemplateManager = (function(){
     }
 
     function _installTemplate(groupName, content){
-        _$iframeDocument[0].write(content);
-        _$iframeDocument[0].close();
+        _iframeDocument.open();
+        _iframeDocument.write(content);
+        _iframeDocument.close();
         _templateCache[groupName] = {};
 
-        _$iframeDocument.find('[template]').each(function(index, elem){
+        $(_iframeDocument).find('[template]').each(function(index, elem){
             var $elem = $(elem);
             var templateName = $elem.attr('template');
             _templateCache[groupName][templateName] = $elem.html();
@@ -60,11 +61,23 @@ BlogKit.util.TemplateManager = (function(){
 
     return {
         initialize: function(path){
+            var signal = $.Deferred();
            _path = path;
-            _$uiIframe = $('<iframe id="_templateHookUp"/>').appendTo('body');
-           _$iframeDocument = _$uiIframe.contents();
+            _$uiIframe = $('<iframe id="_templateHookUp"></iframe>');
 
-           var aaa = 1;
+            _$uiIframe.load(function(){
+                var document = _$uiIframe[0].contentWindow || _$uiIframe[0].contentDocument;
+                if (document.document) {
+                    document = document.document;
+                }
+                _iframeDocument = document;
+                signal.resolve();
+            });
+
+            _$uiIframe.appendTo('body');
+
+            return signal;
+
         },
 
         requestTemplate: function(template){

@@ -1,3 +1,5 @@
 RewriteEngine On
 RewriteRule  ^(js|style|template).*$  $0 [NC,L]
+RewriteRule  .*php$  $0 [NC,L]
+
 RewriteRule  ^.*$  index.html [L]

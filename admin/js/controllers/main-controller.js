@@ -7,15 +7,15 @@
 (function(){
     'use strict';
 
-    BlogKit.namespace('Admin.Controller.Main');
+    BlogKit.namespace('Admin.Controller');
 
     Admin.Controller.Main = BlogKit.Controller.extend({
-        'default': function(){
-            var result = $.Deferred();
-            console.log(this._created);
+        _view: null,
 
-            result.resolve();
-            return result;
+        initialize: function(){
+        },
+
+        'default': function(){
         }
     });
 
