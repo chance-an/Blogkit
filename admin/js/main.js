@@ -28,6 +28,7 @@
     _.extend(Admin.Application.prototype, {
         router: null,
         baseView: null,
+        primaryNavBarView: null,
 
         _getRootURL: function(){
             //TODO Find a way to better retrieve this information
@@ -40,6 +41,21 @@
             });
 
             var request = this.baseView.render();
+            request = request.pipe(function(){
+                //create primary navigation bar
+                this.primaryNavBarView = new Admin.View.NavBar({
+                    el: $(this.baseView.el).find('#mainNavBar')
+                });
+                //associate `baseView` with `primaryNavBarView`
+                this.baseView.setNavBarView(this.primaryNavBarView);
+
+                //add first tab
+                this.primaryNavBarView.put(new Admin.View.NavBar.TabEntry(
+                    __('Login'), 'login'
+                ) );
+
+                return this.primaryNavBarView.render();
+            }.bind(this));
 
             return request;
         }

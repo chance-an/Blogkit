@@ -10,6 +10,9 @@
     BlogKit.namespace('Admin.View');
 
     Admin.View.Main = Backbone.View.extend({
+
+        navBarView: null,
+
         render: _.once(function(){
             var request = BlogKit.util.TemplateManager.requestTemplate('basic.main');
             var instance = this;
@@ -25,6 +28,14 @@
             $(window).resize( func );
             func();
         }),
+
+        setNavBarView: function(navBarView){
+            if(this.navBarView ){
+                $( this.navBarView.el).off('afterRender');
+            }
+            this.navBarView = navBarView;
+            $(this.navBarView.el).on('afterRender', _.bind(this.resize, this));
+        },
 
         resize: function(){
             var $window = $(window);

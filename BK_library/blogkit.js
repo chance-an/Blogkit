@@ -73,4 +73,5 @@
     }
 
     window.BlogKit = new BlogKit();
+    window.__ = function(text){return text;}
 })();

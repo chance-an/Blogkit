@@ -54,9 +54,13 @@ BlogKit.util.TemplateManager = (function(){
         $(_iframeDocument).find('[template]').each(function(index, elem){
             var $elem = $(elem);
             var templateName = $elem.attr('template');
-            _templateCache[groupName][templateName] = $elem.html();
+            _templateCache[groupName][templateName] = _unescape($elem.html());
         });
 
+    }
+
+    function _unescape(text){
+        return text.replace(/(&lt;|%3C)%/g, '<%').replace(/%(&gt;|%3E)/g, '%>');
     }
 
     return {
