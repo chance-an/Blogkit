@@ -16,13 +16,18 @@
         },
 
         routes: {
-            "" : 'main'
+            "" : 'main',
+            "login" : 'login'
         },
 
         main: function(){
             var controller = new Admin.Controller.Main();
             controller['default'].apply(controller, arguments);
+        },
 
+        login: function(){
+            var controller = new Admin.Controller.Login();
+            controller['default']();
         }
     })
 

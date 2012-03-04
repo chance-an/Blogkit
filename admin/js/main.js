@@ -16,7 +16,9 @@
         this.router = new Admin.Router(this);
         var rootURL = this._getRootURL();
 
+        //wait for the following signals before start
         var signals = [
+            BlogKit.ready(),
             BlogKit.util.TemplateManager.initialize(rootURL + 'template'),
             this._setupBasic()
         ];
@@ -30,6 +32,9 @@
         baseView: null,
         primaryNavBarView: null,
 
+        sessionModel: null,
+
+
         _getRootURL: function(){
             //TODO Find a way to better retrieve this information
             return '/admin/';
@@ -41,6 +46,8 @@
             });
 
             var request = this.baseView.render();
+            this.sessionModel = new Admin.Model.Session();
+
             request = request.pipe(function(){
                 //create primary navigation bar
                 this.primaryNavBarView = new Admin.View.NavBar({
@@ -58,6 +65,14 @@
             }.bind(this));
 
             return request;
+        },
+
+        getRouter: function(){
+            return this.router;
+        },
+
+        getSession: function(){
+            return this.sessionModel;
         }
     });
 

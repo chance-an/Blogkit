@@ -12,16 +12,33 @@
     Admin.View.Main = Backbone.View.extend({
 
         navBarView: null,
+        mainArea: null,
 
         render: _.once(function(){
             var request = BlogKit.util.TemplateManager.requestTemplate('basic.main');
             var instance = this;
-            return request.pipe(function (template) {
+            return request.pipe(_.bind(function (template) {
                 $('body').append(template);
-                instance._setupEvent();
+
+                this.mainArea = $('#mainContent');
+
+                this._setupEvent();
                 return true;
-            });
+            }, this));
         }),
+
+        turnPageToTemplate : function(templateName){
+            var request = BlogKit.util.TemplateManager.requestTemplate(templateName);
+            return request.pipe(_.bind(function(template){
+                this.mainArea.html(template);
+
+                return [template, this.mainArea]; // pass different parameters to relaying deferred object
+            }, this));
+        },
+
+        getMainArea: function(){
+            return this.mainArea;
+        },
 
         _setupEvent: _.once(function(){
             var func = _.debounce(_.bind(this.resize, this));
@@ -50,6 +67,9 @@
 
             //resize dependent
             this._resizeMainPanel($mainTabPanelArea, height);
+
+            //trigger `after-resize` event, so interested subscriber will be notified
+            $(this).trigger('afterResize');
         },
 
         _resizeMainPanel: function($mainTabPanelArea, height){

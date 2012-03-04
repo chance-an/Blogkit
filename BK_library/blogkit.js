@@ -25,6 +25,9 @@
     'use strict';
     //todo check dependency
 
+
+    var _facebookLoaded = new $.Deferred();
+
     function BlogKit () {
         return {
             namespace: function(namespaceString){
@@ -38,6 +41,21 @@
                 }
             },
 
+            facebookLoaded: function(func){
+                if(func !== undefined && typeof func === 'function'){
+                    _facebookLoaded.done(func);
+                }
+                return _facebookLoaded;
+            },
+
+            ready: function(func){
+                var deferredObject = $.when(_facebookLoaded);
+                if(func !== undefined && typeof func === 'function'){
+                    deferredObject.done(func);
+                }
+                return deferredObject;
+            },
+
             'Controller': (function(){
                 function BaseController(){
                     this._created = (new Date()).getTime();
@@ -48,16 +66,18 @@
                 });
 
                 BaseController.extend = function(properties){
-                    var klass= function Controller(){
-                        if(klass['_instance'] !== undefined ){ //try to simulate Singleton
-                            return klass['_instance'];
+                    var instance = undefined;
+                    var klass = function Controller(){
+                        if(instance !== undefined ){ //try to simulate Singleton
+                            return instance;
                         }
                         BaseController.apply(this, arguments);
                         if(this['initialize'] !== undefined){
                             this['initialize'].apply(this, arguments);
                         }
 
-                        klass['_instance'] = this;
+                        instance = this;
+                        return instance;
                     };
 
                     klass.prototype = new BaseController();
@@ -72,6 +92,40 @@
         }
     }
 
+    function initialize(){
+        initializeFacebook();
+    }
+
+    function initializeFacebook(){
+        window.fbAsyncInit = function() {
+
+            FB.init({
+
+                status     : true, // check login status
+                cookie     : true, // enable cookies to allow the server to access the session
+                xfbml      : true  // parse XFBML
+            });
+
+            // Additional initialization code here
+            //notification
+            _facebookLoaded.resolve((new Date()).getTime());
+        };
+
+        $('<div id="fb-root"></div>').prependTo('body');
+
+        (function(d){
+            var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+            js = d.createElement('script'); js.id = id; js.async = true;
+            js.src = "//connect.facebook.net/en_US/all.js";
+            d.getElementsByTagName('head')[0].appendChild(js);
+        }(document));
+    }
+
     window.BlogKit = new BlogKit();
-    window.__ = function(text){return text;}
+    window.__ = function(text){return text;};
+    window._d = function(message){
+        console.log(message);
+    };
+
+    $(document).ready(initialize);
 })();

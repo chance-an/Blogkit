@@ -9,19 +9,17 @@
 
     BlogKit.namespace('Admin.Controller');
 
-    Admin.Controller.Main = Admin.Controller.AbstractController.extend({
+    Admin.Controller.Login = Admin.Controller.AbstractController.extend({
         _view: null,
 
         initialize: function(){
-            this['test'] = new Date();
+            this._view = new Admin.View.Login();
         },
 
         'default': function(){
-            _d('Enter Main:default');
-            if(!this.checkSessionValid()){
-                return false;
-            }
+            _d('Enter Login:default');
 
+            this._view.render();
         }
     });
 

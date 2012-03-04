@@ -6,7 +6,7 @@
     <property environment="env"/>
     <property name="build" location="build"/>
 
-    <target name="dist" depends="">
+    <target name="dist" depends="buildLESS">
 
     </target>
 

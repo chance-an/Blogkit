@@ -104,3 +104,34 @@
   border-bottom-width: 2px;
   color: #b50e81;
 }
+#login {
+  height: 100%;
+}
+#login-zone {
+  margin: auto;
+  float: inherit;
+  border-left: 1px solid #7f2e2c;
+  border-right: 1px solid #f7e7e6;
+  position: relative;
+  top: -19px;
+}
+#login-zone .row1 {
+  height: 20%;
+  position: relative;
+}
+#login-zone .row2 {
+  height: 50%;
+  position: relative;
+}
+#login-zone .row3 {
+  height: 30%;
+}
+#login-zone .inner-container {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+}
+#login-zone .inner-container div {
+  margin-left: auto;
+  margin-right: auto;
+}
