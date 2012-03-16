@@ -104,7 +104,8 @@
   border-bottom-width: 2px;
   color: #b50e81;
 }
-#login {
+#login,
+#dashboard-view {
   height: 100%;
 }
 #login-zone {
@@ -134,4 +135,18 @@
 #login-zone .inner-container div {
   margin-left: auto;
   margin-right: auto;
+}
+#dashboard-view .row {
+  height: 50%;
+}
+#dashboard-view .row > [class*="span"] {
+  height: 100%;
+}
+#dashboard-view #dashboard-view-user-picture {
+  overflow: hidden;
+}
+#dashboard-view #dashboard-view-user-picture img {
+  position: relative;
+  top: 50%;
+  margin-top: -90px;
 }

@@ -18,11 +18,28 @@
 
         'default': function(){
             _d('Enter Main:default');
-            if(!this.checkSessionValid()){
-                return false;
-            }
+
+            return this.checkSessionValid().pipe(_.bind(function(isValid){
+                _d('Dashboard Controller Session:' + isValid);
+
+                if(!isValid){
+                    return $.Deferred().reject();
+                }
+
+                this._view = new Admin.View.Dashboard();
+
+                return this._view.render().pipe(_.bind(function(){
+                    var application = getApplication();
+                    var sessionModel = application.sessionModel;
+                    this._view.setSessionModel(application.sessionModel); // bind model to view
+
+                    sessionModel.loadUserData(); //update model. (will trigger view's listener)
+                }, this));
+
+            }, this));
 
         }
+
     });
 
 })();

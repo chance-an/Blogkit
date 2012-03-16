@@ -1,3 +1,6 @@
+<?php
+    define('MAIN_ENTRY', 1);
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,15 +25,30 @@
     <script type="text/javascript" src="/BK_library/jquery.extension.js"></script>
 
     <!--  -->
-    <script type="text/javascript" src="js/main.js"></script>
-    <script type="text/javascript" src="js/router.js"></script>
-    <script type="text/javascript" src="js/controllers/abstract-controller.js"></script>
-    <script type="text/javascript" src="js/controllers/main-controller.js"></script>
-    <script type="text/javascript" src="js/controllers/login-controller.js"></script>
-    <script type="text/javascript" src="js/views/main-view.js"></script>
-    <script type="text/javascript" src="js/views/nav-bar-view.js"></script>
-    <script type="text/javascript" src="js/views/login-view.js"></script>
-    <script type="text/javascript" src="js/models/session-model.js"></script>
+    <?php
+        $dir_base = dirname(__FILE__).'/js/';
+        $load_js_dirs = array('', 'controllers', 'models', 'views');
+
+        foreach($load_js_dirs as $dir){
+            $path = $dir_base . $dir;
+            $dir .= empty($dir) ? '' : '/';
+            if ($handle = opendir( $path )) {
+
+                while (false !== ($entry = readdir($handle))) {
+                    if( $entry == '.' ){
+                        continue;
+                    }
+                    if( substr_compare($entry, 'js', -2, 2) != 0 ){
+                        continue;
+                    };
+
+                    echo '<script type="text/javascript" src="js/'. $dir . $entry.'"></script> ';
+                }
+            }
+        }
+
+    ?>
+
 
 </head>
 <body>

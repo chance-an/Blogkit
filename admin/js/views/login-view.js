@@ -20,12 +20,11 @@
             var application = getApplication();
             var baseView = application.baseView;
 
-            baseView.turnPageToTemplate('login.main').pipe(_.bind(function(params){
+            return baseView.turnPageToTemplate('login.main').pipe(_.bind(function(params){
                 var element = params[1];
                 this._contentArea =  element[0];
                 FB.XFBML.parse(this._contentArea );
                 this.resize();
-                _d('login.main rendered');
             }, this));
         },
 
@@ -35,7 +34,6 @@
         },
 
         resize: function(){
-            _d('resize');
             var contentArea = getApplication().baseView.mainArea;
             if(contentArea == null){
                 return false;
@@ -43,8 +41,6 @@
             var $contentArea = $(contentArea );
             var height = $contentArea .height() + parseInt($contentArea.css('padding-top'))
                 + parseInt($contentArea.css('padding-bottom')) ;
-
-            _d(height);
 
             $('#login-zone').height(height);
 

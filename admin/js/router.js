@@ -8,6 +8,8 @@
     'use strict';
     BlogKit.namespace('Admin');
 
+    var currentActiveController = null;
+
     Admin.Router = Backbone.Router.extend({
         _application: null,
 
@@ -22,12 +24,24 @@
 
         main: function(){
             var controller = new Admin.Controller.Main();
-            controller['default'].apply(controller, arguments);
+            controller['default'].apply(controller, arguments).done(
+                function(){
+                    currentActiveController = controller.classId;
+                }
+            );
         },
 
         login: function(){
             var controller = new Admin.Controller.Login();
-            controller['default']();
+            controller['default']().done(
+                function(){
+                    currentActiveController = controller.classId;
+                }
+            );
+        },
+
+        isControllerActive: function(classId){
+            return currentActiveController == classId;
         }
     })
 

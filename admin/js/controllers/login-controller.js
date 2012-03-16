@@ -19,7 +19,7 @@
         'default': function(){
             _d('Enter Login:default');
 
-            this._view.render();
+            return this._view.render();
         }
     });
 

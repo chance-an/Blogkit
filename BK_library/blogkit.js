@@ -84,6 +84,7 @@
                     _.extend(klass.prototype, properties);
 
                     klass.prototype.constructor = klass;
+                    klass.prototype.classId = _.uniqueId('controller_');
 
                     return klass;
                 };
@@ -100,7 +101,8 @@
         window.fbAsyncInit = function() {
 
             FB.init({
-
+                appId      : '393416427339555', // App ID
+                channelUrl : '//blogkit.dyndns-web.com/3rd_party/facebook/channel.html', // Channel File
                 status     : true, // check login status
                 cookie     : true, // enable cookies to allow the server to access the session
                 xfbml      : true  // parse XFBML

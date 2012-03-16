@@ -9,15 +9,20 @@
     BlogKit.namespace('Admin.Controller');
 
     Admin.Controller.AbstractController = {
-        checkSessionValid: function(){
+        checkSessionValid: function(callback){
             var application = getApplication();
             var session = application.getSession();
 
-            if(!session.valid()){
-                _.defer(this.invokeLogin);
-                return false;
+            var signal = session.valid().pipe(_.bind(function(isValid){
+                if(!isValid){
+                    _.defer(this.invokeLogin);
+                }
+                return isValid;
+            }, this));
+            if(callback && typeof callback === 'function'){
+                signal.done(callback);
             }
-            return true;
+            return signal;
         },
 
         invokeLogin: function(){
@@ -25,8 +30,14 @@
             var router = application.getRouter();
 
             router.navigate('login', {trigger: true});
-        }
+        },
 
+        isActive: function(){
+            var application = getApplication();
+            var router = application.router;
+
+            return router.isControllerActive(this.classId);
+        }
 
     };
 
