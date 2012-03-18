@@ -32,12 +32,18 @@
                     var application = getApplication();
                     var sessionModel = application.sessionModel;
                     this._view.setSessionModel(application.sessionModel); // bind model to view
+                    this._view.updateUserInfo();
 
-                    sessionModel.loadUserData(); //update model. (will trigger view's listener)
+                    this.getLatestArticles();
                 }, this));
 
             }, this));
 
+        },
+
+        getLatestArticles: function(){
+            var deferred = new $.Deferred();
+            return deferred;
         }
 
     });

@@ -23,6 +23,8 @@
     <script type="text/javascript" src="/BK_library/blogkit.js"></script>
     <script type="text/javascript" src="/BK_library/utility.js"></script>
     <script type="text/javascript" src="/BK_library/jquery.extension.js"></script>
+    <script type="text/javascript" src="/BK_library/session-model.js"></script>
+    <script type="text/javascript" src="/BK_library/facebook-user-model.js"></script>
 
     <!--  -->
     <?php

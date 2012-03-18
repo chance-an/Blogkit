@@ -13,6 +13,7 @@
         _contentArea: null,
 
         _sessionModel: null,
+        _userModel: null,
 
         initialize: function(){
         },
@@ -31,20 +32,22 @@
 
         setSessionModel: function(model){
             this._sessionModel = model;
+            this._userModel = this._sessionModel.getUser();
 
-            this._sessionModel.bind('user-data-arrived', this.updateUserInfo, this);
+            this._userModel.bind('change', this.updateUserInfo, this);
         },
 
         updateUserInfo: function(){
+            _d('updateUserInfo');
             if( !$.contains(this._contentArea, this.el) ){
                 return;
             }
             $('#dashboard-view-user-profile').html(
-                this._sessionModel.getUserName()
+                this._userModel.get('username')
             );
 
             $('#dashboard-view-user-picture').html(
-                this._sessionModel.getUserProfilePicture()
+                '<img src="' + this._userModel.get('profilePicture') + '" />'
             );
         }
     });

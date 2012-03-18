@@ -10,6 +10,10 @@
     BlogKit.namespace('BlogKit.Model');
 
     BlogKit.Model.Article = Backbone.Model.extend({
+
+        defaults: {
+
+        }
     });
 
 })();

@@ -46,7 +46,7 @@
             });
 
             var request = this.baseView.render();
-            this.sessionModel = new Admin.Model.Session();
+            this.sessionModel = new BlogKit.Model.Session();
 
             request = request.pipe(function(){
                 //create primary navigation bar
