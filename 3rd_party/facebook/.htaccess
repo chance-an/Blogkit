@@ -1,2 +1,4 @@
 RewriteEngine On
 RewriteRule  ^(.*)\.html$  $1.php [NC,L]
+RewriteRule  ^channel.php$  $0 [L]
+RewriteRule  ^(.*)$  $0 [F,L]

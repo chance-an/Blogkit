@@ -1,0 +1,10 @@
+<?php
+/**
+ * User: anch
+ * Date: 3/25/12
+ * Time: 1:21 AM
+ */
+
+
+define('FACEBOOK_API_ID', '');
+define('FACEBOOK_SECRET', '');
