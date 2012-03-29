@@ -26,6 +26,8 @@
     <script type="text/javascript" src="/BK_library/session-model.js"></script>
     <script type="text/javascript" src="/BK_library/facebook-user-model.js"></script>
 
+    <script type="text/javascript" src="js/abstract-controller.js"></script>
+
     <!--  -->
     <?php
         $dir_base = dirname(__FILE__).'/js/';
