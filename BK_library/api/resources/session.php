@@ -14,20 +14,6 @@ class SessionResource extends Resource {
     function get($request) {
         $response = new Response($request);
 
-        require_once APP_ROOT.'3rd_party/facebook/facebook.php';
-
-        $facebook = new Facebook(array(
-            'appId' => FACEBOOK_API_ID,
-            'secret' => FACEBOOK_SECRET
-        ));
-
-        $uid = $facebook->getUser();
-
-        if($uid == 0){
-            $response->code = Response::PRECONDITIONFAILED;
-        }
-
-
         $response->code = Response::OK;
 
         $response->body = <<<END

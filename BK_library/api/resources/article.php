@@ -33,11 +33,17 @@ class ArticlesResource extends Resource {
     function get($request) {
 
         $response = new Response($request);
+
+        $session_helper = Helper::load('session');
+
+        $current_user = $session_helper::getCurrentUser();
+
         $response->code = Response::OK;
 
         $response->body = <<<END
 Ahh, the great outdoors!
-END;
+END
+.$current_user['id'];
         return $response;
     }
 

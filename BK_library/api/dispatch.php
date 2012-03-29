@@ -3,6 +3,8 @@ require_once 'config.php';
 // load Tonic library
 require_once '../../3rd_party/tonic/tonic.php';
 
+require_once dirname(__FILE__).'/helper/helper.php';
+
 require_once dirname(__FILE__).'/resources/article.php';
 require_once dirname(__FILE__).'/resources/session.php';
 
