@@ -6,7 +6,8 @@
  */
 
 class Helper{
-    protected static $_instance;
+
+    protected static $instance_mapping = array();
 
     private function __construct(){
     }
@@ -22,12 +23,12 @@ class Helper{
 
     public static function getInstance(){
         $class = get_called_class();
-        if ( empty(self::$_instance) ){
-            eval($class.'::$_instance = new '.$class.'();');
+        if( !array_key_exists($class, self::$instance_mapping) ){
+            $instance = null;
+            eval('$instance = new '.$class.'();');
+            self::$instance_mapping[$class] = $instance;
         }
 
-        $instance = null;
-        eval('$instance = '.$class.'::$_instance;');
-        return $instance;
+        return self::$instance_mapping[$class];
     }
 }

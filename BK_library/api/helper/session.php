@@ -7,6 +7,7 @@
 
 
 class SessionHelper extends Helper{
+    private static $_instance;
 
     public static function getCurrentUser(){
         require_once APP_ROOT.'3rd_party/facebook/facebook.php';

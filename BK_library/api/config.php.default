@@ -8,3 +8,6 @@
 
 define('FACEBOOK_API_ID', '');
 define('FACEBOOK_SECRET', '');
+define('DATA_SOURCE_NAME', '');
+define('DATABASE_USERNAME', '');
+define('DATABASE_PASSWORD', '');
