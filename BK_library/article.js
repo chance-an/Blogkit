@@ -5,7 +5,7 @@
  */
 
 (function (){
-
+    var sql = 1;
     'use strict';
     BlogKit.namespace('BlogKit.Model');
 

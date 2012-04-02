@@ -71,13 +71,25 @@ class ArticlesResource extends ArticleResource {
             return $response;
         }
 
-        $result = $this->getArticlesByUserId($user_id);
+        /**
+         * @var $result_helper ResultHelper
+         */
+        $result_helper = Helper::load('result');
+
+        try{
+            $result = $this->getArticlesByUserId($user_id);
+        }catch(Exception $e){
+            $response->code = Response::INTERNALSERVERERROR;
+            $response->body = $result_helper::getErrorJSONResult($e);
+            return $response;
+        }
+
 
         $response->code = Response::OK;
         $response->body = <<<END
 Ahh, the great outdoors!
 END
-.jsonRemoveUnicodeSequences($result);
+.$result_helper::getSuccessfulJSONResult($result). $user_id;
         return $response;
     }
 
@@ -99,7 +111,7 @@ END
             WHERE `author` = :user_id
 SQL
         , array(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true));
-        $statement->bindValue(':user_id', 1, PDO::PARAM_INT);
+        $statement->bindValue(':user_id', $user_id, PDO::PARAM_INT);
 
         $result = $statement->execute();
         if($result){

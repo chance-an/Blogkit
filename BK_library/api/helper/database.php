@@ -23,8 +23,14 @@ class DatabaseHelper extends Helper{
 
 class PDOConnection extends PDOException{
 
+    function __construct(){
+        parent::__construct('Database connection error.');
+    }
+
 }
 
 class PDOOperation extends PDOException{
-
+    function __construct(){
+        parent::__construct('Database operation error.');
+    }
 }
