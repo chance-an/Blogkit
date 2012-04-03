@@ -38,7 +38,6 @@
         },
 
         updateUserInfo: function(){
-            _d('updateUserInfo');
             if( !$.contains(this._contentArea, this.el) ){
                 return;
             }

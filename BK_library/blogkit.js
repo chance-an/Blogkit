@@ -24,7 +24,7 @@
 (function(){
     'use strict';
     //todo check dependency
-
+    var _apiRoot = null;
 
     var _facebookLoaded = new $.Deferred();
 
@@ -39,6 +39,27 @@
                     }
                     node = node[components[i]];
                 }
+            },
+
+            getAPIRoot: function(){
+                if( _apiRoot == null ){
+                    var fallbackValue = '/BK_library/api';
+                    var src = _.filter($('script').map(function(index, entry){return $(entry).attr('src')}),
+                        function(value){return value.match(/blogkit\.js$/) != null});
+                    if(src.length != 1){
+                        _apiRoot = fallbackValue;
+                    }else{
+                        src = src[0];
+                        if(src.charAt(0) == '/'){ //start with `/`, absolute path
+                            var path = window.location.protocol + '//' + ( window.location.host + '/' + src )
+                                .replace(/\/{2,}/g, '/') ;
+                        }else{ //relative path
+                            path = window.location.href.replace(/\/[^\/]*$/, '') + '/' + src;
+                        }
+                        _apiRoot = path.replace(/blogkit\.js$/, 'api')
+                    }
+                }
+                return _apiRoot;
             },
 
             facebookLoaded: function(func){

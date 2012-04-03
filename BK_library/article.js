@@ -16,4 +16,16 @@
         }
     });
 
+    BlogKit.Model.Articles = Backbone.Collection.extend({
+        model: BlogKit.Model.Article,
+
+        url: function(){
+            return BlogKit.getAPIRoot() + '/articles';
+        },
+
+        parse: function(response){
+            return response.data;
+        }
+    })
+
 })();

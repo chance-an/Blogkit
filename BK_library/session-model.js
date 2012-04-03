@@ -31,10 +31,10 @@
                 if( isLoggedIn ){
                     this.set({facebook_access_token: response.authResponse.accessToken});
                     this.loadUser(response.authResponse.userID).always(function(){
-                        signal.resolve(isLoggedIn);
+                        signal.resolve(true);
                     });
                 }else{
-                    signal.resolve(isLoggedIn);
+                    signal.resolve(false);
                 }
             }, this));
 

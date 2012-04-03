@@ -86,10 +86,9 @@ class ArticlesResource extends ArticleResource {
 
 
         $response->code = Response::OK;
-        $response->body = <<<END
-Ahh, the great outdoors!
-END
-.$result_helper::getSuccessfulJSONResult($result). $user_id;
+        $response->body = $result_helper::getSuccessfulJSONResult($result);
+        $response->addHeader('Content-Type', $request->mimetypes['json']);
+
         return $response;
     }
 
