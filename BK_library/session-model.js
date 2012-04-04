@@ -8,7 +8,6 @@
     BlogKit.namespace('BlogKit.Model');
 
     BlogKit.Model.Session = Backbone.Model.extend({
-
         _user: null,
 
         defaults:{

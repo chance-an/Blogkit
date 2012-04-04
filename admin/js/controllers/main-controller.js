@@ -40,8 +40,11 @@
         },
 
         getLatestArticles: function(){
-            var deferred = new $.Deferred();
-            return deferred;
+            if( !this._view._articlesList ){
+
+                this._view.setArticleCollection( new BlogKit.Collection.Articles() );
+            }
+            return this._view._articlesList.fetch();
         }
 
     });

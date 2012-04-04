@@ -40,7 +40,7 @@ BlogKit.util.TemplateManager = (function(){
         });
 
         request.fail(function(jqXHR, textStatus, errorThrown){
-            Ext.Error.raise('template group ' + groupName + ' cannot be found!' );
+            _e('template group ' + groupName + ' cannot be found!' );
             signal.reject(errorThrown);
         });
     }

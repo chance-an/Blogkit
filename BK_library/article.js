@@ -16,7 +16,8 @@
         }
     });
 
-    BlogKit.Model.Articles = Backbone.Collection.extend({
+    BlogKit.namespace('BlogKit.Collection');
+    BlogKit.Collection.Articles = Backbone.Collection.extend({
         model: BlogKit.Model.Article,
 
         url: function(){

@@ -14,6 +14,7 @@
 
         _sessionModel: null,
         _userModel: null,
+        _articlesList: null,
 
         initialize: function(){
         },
@@ -37,6 +38,11 @@
             this._userModel.bind('change', this.updateUserInfo, this);
         },
 
+        setArticleCollection: function(articleCollection){
+            this._articlesList = articleCollection;
+            this._articlesList.bind('reset', this.showArticles, this);
+        },
+
         updateUserInfo: function(){
             if( !$.contains(this._contentArea, this.el) ){
                 return;
@@ -48,6 +54,24 @@
             $('#dashboard-view-user-picture').html(
                 '<img src="' + this._userModel.get('profilePicture') + '" />'
             );
+        },
+
+        showArticles: function(){
+            BlogKit.util.TemplateManager.requestTemplate('dashboard.articles-list').done(_.bind(function(template){
+                $('#dashboard-articles-list').html(template);
+
+                var $template = $('#dashboard-articles-list .data-row').remove();
+                var $tbody = $('#dashboard-articles-list tbody');
+                if(this._articlesList){
+                    this._articlesList.each(function(model){
+                        var $row = $template.clone();
+                        $row.find('.date').html(new Date());
+                        $row.find('.title').html(model.get('title'));
+                        $tbody.append($row);
+                    }, this)
+                }
+            }, this))
+
         }
     });
 })();

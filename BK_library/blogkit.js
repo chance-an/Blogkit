@@ -149,6 +149,9 @@
     window._d = function(message){
         console.log(message);
     };
+    window._e = function(message){
+        console.log(message);
+    };
 
     $(document).ready(initialize);
 })();
