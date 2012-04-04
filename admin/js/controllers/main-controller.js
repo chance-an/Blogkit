@@ -28,12 +28,10 @@
 
                 this._view = new Admin.View.Dashboard();
 
-                return this._view.render().pipe(_.bind(function(){
-                    var application = getApplication();
-                    var sessionModel = application.sessionModel;
-                    this._view.setSessionModel(application.sessionModel); // bind model to view
-                    this._view.updateUserInfo();
 
+                return this._view.render().pipe(_.bind(function(){
+                    this._view.setSessionModel(getApplication().sessionModel); // bind model to view
+                    this._view.updateUserInfo();
                     this.getLatestArticles();
                 }, this));
 

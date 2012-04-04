@@ -21,39 +21,42 @@
 
         },
 
-        fetch: function(options){
+        sync: function(method, model, options){
             options = options || {success: $.noop, error: $.noop};
-
-            var deferred = $.Deferred(), deferred1 = $.Deferred();
-            var profile_id = this.get('userID');
-            if(!profile_id){
-                return deferred.reject();
+            if( method != 'read'){
+                options.error(model, 'unimplemented');
+                return false;
             }
 
+            var attributes = {};
+
+            var profile_id = model.get('userID');
+            var deferred = $.Deferred();
+            //1. get profile basic information
             FB.api('/' + profile_id, _.bind(function(response){
-                this._userData = response;
-                this.set({'username': this._userData['first_name'] + ' ' + this._userData['last_name']}, {silent: true});
-                this.set({'userid': this._userData['id']}, {silent: true});
+                model._userData = response;
+                attributes['username'] = model._userData['first_name'] + ' ' + model._userData['last_name'];
+                attributes['userid'] = model._userData['id'];
                 deferred.resolve();
             }, this));
 
-            deferred.done(_.bind(function(){
+            //2. chain the deferred objec to obtain profile picture url
+            return deferred.pipe(function(){
+                var deferred = new $.Deferred();
                 FB.api('/' + profile_id + '/picture?type=large', _.bind(function(response){
-                    this.set({'profilePicture': response}, {silent: true});
-                    deferred1.resolve();
+                    attributes['profilePicture'] = response;
+                    deferred.resolve(response);
                 }, this));
-            }, this));
-
-            return deferred1.pipe(
-                /*doneFilter*/_.bind(function(message){
-                    options.success(this, message);
-                    this.trigger('change');
-                }, this),
-                /*failFilter*/_.bind(function(cause){
-                    options.error(this, cause);
-                    this.trigger('error');
-                }, this)
-            );
+                return deferred;
+            }).pipe(function(value){
+                //3 chain the chained deferred object to trigger `success` callback
+                model.set(attributes);
+                options.success(model, value);
+                return value;
+            }, function(){
+                //4 trigger the 'error' callback when error occurs
+                options.error(model, 'pullling date from facebook failed');
+            })
         }
     });
 })();
