@@ -47,24 +47,8 @@
         //1. deal with fill-to-parent
         $('.fill-container').each(function(index, element){
             var $container = $(element);
-            var $filling = $container.find('.filling');
-            if($filling.length != 1){
-                return;
-            }
-            var queryResults = $container.find('> .docked-top, > .dock-bottom');
-            if( queryResults.length != 0 ){
-                var $dockTop = $container.find('> .docked-top');
-                if($dockTop.length != 0){
-                    $dockTop.css('float', 'none');
-
-                    $dockTop.detach();
-                }
-
-            }else{
-                queryResults = $container.find('> .docked-left, > .dock-right');
-                if(queryResults.length != 0){
-                    //TODO
-                }
+            if(!$container.layout('established')){
+                $container.layout();
             }
         });
 
