@@ -12,7 +12,6 @@
         checkSessionValid: function(callback){
             var application = getApplication();
             var session = application.getSession();
-
             var signal = session.valid().pipe(_.bind(function(isValid){
                 if(!isValid){
                     _.defer(this.invokeLogin);

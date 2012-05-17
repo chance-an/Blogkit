@@ -21,6 +21,7 @@
 
     <!-- Import Blogkit lib -->
     <script type="text/javascript" src="/BK_library/blogkit.js"></script>
+    <script type="text/javascript" src="/BK_library/blogkit_ui.js"></script>
     <script type="text/javascript" src="/BK_library/utility.js"></script>
     <script type="text/javascript" src="/BK_library/jquery.extension.js"></script>
     <script type="text/javascript" src="/BK_library/session-model.js"></script>
@@ -32,7 +33,7 @@
     <!--  -->
     <?php
         $dir_base = dirname(__FILE__).'/js/';
-        $load_js_dirs = array('', 'controllers', 'models', 'views');
+        $load_js_dirs = array('', 'controllers', 'views');
 
         foreach($load_js_dirs as $dir){
             $path = $dir_base . $dir;

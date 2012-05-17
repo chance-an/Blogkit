@@ -19,29 +19,33 @@
 
         routes: {
             "" : 'main',
-            "login" : 'login'
+            "login" : 'login',
+            "articles": 'articles'
         },
 
         main: function(){
-            var controller = new Admin.Controller.Main();
-            controller['default'].apply(controller, arguments).done(
-                function(){
-                    currentActiveController = controller.classId;
-                }
-            );
+            this._runDefaultMethod('Main');
         },
 
         login: function(){
-            var controller = new Admin.Controller.Login();
+            this._runDefaultMethod('Login');
+        },
+
+        articles: function(){
+            this._runDefaultMethod('Articles');
+        },
+
+        isControllerActive: function(classId){
+            return currentActiveController == classId;
+        },
+
+        _runDefaultMethod : function(controllerName){
+            var controller = new Admin.Controller[controllerName]();
             controller['default']().done(
                 function(){
                     currentActiveController = controller.classId;
                 }
             );
-        },
-
-        isControllerActive: function(classId){
-            return currentActiveController == classId;
         }
     })
 
