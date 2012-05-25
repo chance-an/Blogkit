@@ -136,10 +136,10 @@
   margin-left: auto;
   margin-right: auto;
 }
-#dashboard-view .row {
+#dashboard-view .row-fluid {
   height: 50%;
 }
-#dashboard-view .row > [class*="span"] {
+#dashboard-view .row-fluid > [class*="span"] {
   height: 100%;
 }
 #dashboard-view #dashboard-view-user-picture {
@@ -149,4 +149,14 @@
   position: relative;
   top: 50%;
   margin-top: -90px;
+}
+#dashboard-view #dashboard-articles-list {
+  overflow: hidden;
+}
+#dashboard-view #dashboard-articles-list table {
+  margin: 2%;
+  width: 100%;
+}
+#dashboard-view #dashboard-articles-list table tr th[name=title] {
+  width: 80%;
 }

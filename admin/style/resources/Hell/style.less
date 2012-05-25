@@ -92,7 +92,7 @@
 }
 
  #dashboard-view{
-    .row{
+    .row-fluid{
         height: 50%;
         > [class*="span"]{
             height: 100%;
@@ -108,5 +108,20 @@
             top: 50%;
             margin-top: -90px;
         }
+    }
+
+    #dashboard-articles-list{
+        overflow: hidden;
+        table{
+            margin: 2%;
+            width: 100%;
+
+            tr th{
+                &[name=title]{
+                    width: 80%;
+                }
+            }
+        }
+
     }
  }

@@ -18,7 +18,7 @@
         render: function(){
             var request = BlogKit.util.TemplateManager.requestTemplate('components.navTab');
             request.pipe(function(template){
-                var $el = $(this.el);
+                var $el = $(this.el).empty();
                 template = _.template(template); //compile template
                 _.each(this.tabs, function(tab){
                     $el.append(template(tab));

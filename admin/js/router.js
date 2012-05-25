@@ -19,6 +19,7 @@
 
         routes: {
             "" : 'main',
+            "dashboard" : 'main',
             "login" : 'login'
         },
 

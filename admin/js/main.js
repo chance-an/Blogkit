@@ -23,7 +23,7 @@
             this._setupBasic()
         ];
         $.when.apply(null, signals).done(function(){
-            Backbone.history.start({pushState:true, root: rootURL})
+            Backbone.history.start()
         });
 
     };
@@ -56,11 +56,6 @@
                 //associate `baseView` with `primaryNavBarView`
                 this.baseView.setNavBarView(this.primaryNavBarView);
 
-                //add first tab
-                this.primaryNavBarView.put(new Admin.View.NavBar.TabEntry(
-                    __('Login'), 'login'
-                ) );
-
                 return this.primaryNavBarView.render();
             }.bind(this));
 
@@ -73,6 +68,10 @@
 
         getSession: function(){
             return this.sessionModel;
+        },
+
+        getNavigationBar: function(){
+            return this.primaryNavBarView;
         }
     });
 
