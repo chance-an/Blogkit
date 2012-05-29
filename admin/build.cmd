@@ -1,0 +1,1 @@
+lessc ./style/resources/Hell/style.less > ./style/Hell/style.css

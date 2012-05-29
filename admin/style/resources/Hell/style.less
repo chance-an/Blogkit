@@ -1,6 +1,5 @@
-@import '../bootstrap/less/mixins.less';
-@import '../bootstrap/less/wells.less';
-@import '../bootstrap/less/variables.less';
+@import '../bootstrap/less/bootstrap.less';
+@import '../bootstrap/less/responsive.less';
 
 @button-text: #B50E81;
 @text-highlight: #FFE7F8;
@@ -53,7 +52,7 @@
     }
 }
 
-#login, #dashboard-view{
+#login, #dashboard-view, #articles{
     height: 100%;
 }
 
@@ -78,17 +77,6 @@
     .row3{
         height:30%;
     }
-
-    .inner-container{
-        position:absolute;
-        top: 50%;
-        width: 100%;
-
-        div{
-            margin-left: auto;
-            margin-right: auto;
-        }
-    }
 }
 
  #dashboard-view{
@@ -109,19 +97,8 @@
             margin-top: -90px;
         }
     }
+ }
 
-    #dashboard-articles-list{
-        overflow: hidden;
-        table{
-            margin: 2%;
-            width: 100%;
-
-            tr th{
-                &[name=title]{
-                    width: 80%;
-                }
-            }
-        }
-
-    }
+ #articles{
+     border:1px solid transparent;
  }

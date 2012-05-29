@@ -34,7 +34,6 @@
         setSessionModel: function(model){
             this._sessionModel = model;
             this._userModel = this._sessionModel.getUser();
-
             this._userModel.bind('change', this.updateUserInfo, this);
         },
 
@@ -47,6 +46,8 @@
             if( !$.contains(this._contentArea, this.el) ){
                 return;
             }
+
+            //TODO Temporary logic
             $('#dashboard-view-user-profile').html(
                 this._userModel.get('username')
             );

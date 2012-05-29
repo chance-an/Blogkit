@@ -8,11 +8,11 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" type="text/css" href="style/Hell/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="style/Hell/bootstrap-responsive.css">
+<!--    <link rel="stylesheet" type="text/css" href="style/Hell/bootstrap.css">-->
+<!--    <link rel="stylesheet" type="text/css" href="style/Hell/bootstrap-responsive.css">-->
+    <link rel="stylesheet" type="text/css" href="style/Hell/style.css">
     <link rel="stylesheet" type="text/css" href="/BK_library/css/blogkit.css">
     <link rel="stylesheet" type="text/css" href="style/Hell/global.css">
-    <link rel="stylesheet" type="text/css" href="style/Hell/style.css">
 
 
     <script type="text/javascript" src="/3rd_party/jquery-1.7.1.min.js"></script>
@@ -21,6 +21,7 @@
 
     <!-- Import Blogkit lib -->
     <script type="text/javascript" src="/BK_library/blogkit.js"></script>
+    <script type="text/javascript" src="/BK_library/blogkit_ui.js"></script>
     <script type="text/javascript" src="/BK_library/utility.js"></script>
     <script type="text/javascript" src="/BK_library/jquery.extension.js"></script>
     <script type="text/javascript" src="/BK_library/session-model.js"></script>
@@ -32,7 +33,7 @@
     <!--  -->
     <?php
         $dir_base = dirname(__FILE__).'/js/';
-        $load_js_dirs = array('', 'controllers', 'models', 'views');
+        $load_js_dirs = array('', 'controllers', 'views', 'models');
 
         foreach($load_js_dirs as $dir){
             $path = $dir_base . $dir;

@@ -1,3 +1,28 @@
-#_templateHookUp{
-    display: none;
+#_templateHookUp {
+  display: none;
+}
+.vertical-center {
+  position: relative;
+}
+.inner-container {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+}
+.inner-container div {
+  margin-left: auto;
+  margin-right: auto;
+}
+.fill-container {
+  height: 100%;
+}
+.docked-top,
+.docked-bottom {
+  width: 100%;
+}
+.docked-left,
+.docked-right,
+.filling {
+  float: left;
+  display: inline-block;
 }
