@@ -40,6 +40,37 @@
             var router = application.router;
 
             return router.isControllerActive(this.classId);
+        },
+
+        //default methods
+        default: function(){
+            var deferred = new $.Deferred();
+
+            this.checkSessionValid().pipe(_.bind(function(isValid){
+                _d('Abstract Controller \'checkSessionValid\' called with result:' + isValid);
+                if(!isValid){
+                    deferred.reject();
+                    return;
+                }
+
+                if(typeof this['_defaultChild'] == 'undefined'){
+                    deferred.done();
+                    return;
+                }
+
+                //call child method
+                var result = this['_defaultChild']();
+                if(result instanceof $.Deferred){
+                    result.done(function(){
+                        deferred.resolve.apply(this, arguments);
+                    });
+                    result.fail(function(){
+                        deferred.reject.apply(this, arguments);
+                    });
+                }
+            }, this));
+
+            return deferred;
         }
 
     };
@@ -60,8 +91,16 @@
 
 
     Admin.Controller.AbstractController.extend = function(properties){
+        //special handling of method override in inheritance
+        var tmpAbstractControllerProperties = _.extend({}, Admin.Controller.AbstractController);
+        _.each(['default'], function(v){
+            if(v in properties){
+                tmpAbstractControllerProperties['_' + v + 'Child'] = properties[v];
+            }
+        });
+
         //get around of singleton inheritance issue by using mixin
-        return BlogKit.Controller.extend(_.extend(Admin.Controller.AbstractController, properties));
+        return BlogKit.Controller.extend(_.extend(properties, tmpAbstractControllerProperties));
     }
 
 })();

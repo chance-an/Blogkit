@@ -14,27 +14,16 @@
 
         initialize: function(){
             this['test'] = new Date();
+            this._view = new Admin.View.Dashboard();
         },
 
         'default': function(){
             _d('Enter Main:default');
 
-            return this.checkSessionValid().pipe(_.bind(function(isValid){
-                _d('Dashboard Controller Session:' + isValid);
-
-                if(!isValid){
-                    return $.Deferred().reject();
-                }
-
-                this._view = new Admin.View.Dashboard();
-
-
-                return this._view.render().pipe(_.bind(function(){
-                    this._view.setSessionModel(getApplication().sessionModel); // bind model to view
-                    this._view.updateUserInfo();
-                    this.getLatestArticles();
-                }, this));
-
+            return this._view.render().pipe(_.bind(function(){
+                this._view.setSessionModel(getApplication().sessionModel); // bind model to view
+                this._view.updateUserInfo();
+                this.getLatestArticles();
             }, this));
 
         },
