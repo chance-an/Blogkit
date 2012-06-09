@@ -9,12 +9,19 @@
     BlogKit.namespace('Admin');
 
     var currentActiveController = null;
+    var currentInvokedAction = null;
+
+    function _checkEvent(route){
+        currentInvokedAction = route.replace(/^route:/i, '');
+        currentInvokedAction  = currentInvokedAction.match(/^[a-z_]+/i)[0];
+    }
 
     Admin.Router = Backbone.Router.extend({
         _application: null,
 
         initialize: function(application){
             this._application = application;
+            this.bind('all', _checkEvent);
         },
 
         routes: {
@@ -38,6 +45,10 @@
 
         isControllerActive: function(classId){
             return currentActiveController == classId;
+        },
+
+        getCurrentInvokedAction: function(){
+            return currentInvokedAction;
         },
 
         _runDefaultMethod : function(controllerName){

@@ -22,6 +22,9 @@
                 template = _.template(template); //compile template
                 _.each(this.tabs, function(tab){
                     $el.append(template(tab));
+                    if(tab.active){
+                        $el.children().last('li').addClass('active');
+                    }
                 });
                 $(this.el).trigger('afterRender');
             }.bind(this));
@@ -35,6 +38,13 @@
                 return false;
             }
             this.tabs.push(tabEntry);
+        },
+
+        activate: function(name){
+            $.each(this.tabs, function(i, e){
+                e.active = (e.name == name);
+            });
+            this.render();
         }
     });
 
@@ -48,7 +58,8 @@
             _.extend(TabEntry.prototype, {
                 'name': null,
                 'title': __('untitled'),
-                'link' : ''
+                'link' : '',
+                active: false
             });
             return TabEntry;
         })()

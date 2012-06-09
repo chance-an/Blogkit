@@ -32,7 +32,7 @@
             var application = getApplication();
             var router = application.getRouter();
 
-            router.navigate('login', {trigger: true});
+            router.navigate('login', {trigger: true, replace: true});
         },
 
         isActive: function(){
@@ -47,20 +47,26 @@
             var deferred = new $.Deferred();
 
             this.checkSessionValid().pipe(_.bind(function(isValid){
-                _d('Abstract Controller \'checkSessionValid\' called with result:' + isValid);
                 if(!isValid){
                     deferred.reject();
                     return;
                 }
 
+                //active tab for the current controller
+                deferred.done(function(){
+                    var action = getApplication().getRouter().getCurrentInvokedAction();
+                    getApplication().getNavigationBar().activate(action);
+                });
+
+                //if the child doesn't define 'default' method, then skip
                 if(typeof this['_defaultChild'] == 'undefined'){
-                    deferred.done();
+                    deferred.resolve.apply(this, arguments);
                     return;
                 }
 
                 //call child method
                 var result = this['_defaultChild']();
-                if(result instanceof $.Deferred){
+                if(result['state'] && typeof result['state'] == 'function'){ //TODO need a better way to test if it's deferred
                     result.done(function(){
                         deferred.resolve.apply(this, arguments);
                     });
@@ -80,8 +86,8 @@
         var deferred = new $.Deferred();
         //test if admin user
         var navigationBar = getApplication().getNavigationBar();
-        var tabs = new Admin.Model.Config();
-        _.each(tabs['TABS']['logged_in'], function(entry){
+        var config = new Admin.Model.Config();
+        _.each(config['TABS']['logged_in'], function(entry){
             navigationBar.put(new Admin.View.NavBar.TabEntry(entry[0], __(entry[1]), entry[2]));
         });
         navigationBar.render();

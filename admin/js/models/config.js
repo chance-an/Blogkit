@@ -27,7 +27,7 @@
             TABS: {
                 logged_in : [
                     ['login', 'Log off', '#login'],
-                    ['dashboard', 'Dashboard', '#dashboard'],
+                    ['main', 'Dashboard', '#dashboard'],
                     ['articles', 'Articles', '#article']
                 ]
             }

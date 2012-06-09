@@ -70,6 +70,10 @@
             return this.sessionModel;
         },
 
+        /**
+         *
+         * @return Admin.View.NavBar
+         */
         getNavigationBar: function(){
             return this.primaryNavBarView;
         }
