@@ -13,14 +13,27 @@
         _view: null,
 
         initialize: function(){
-            this._view = new Admin.View.Articles();
         },
 
         'default': function(){
             _d('Enter Articles:default');
 
-            return this._view.render();
+            return this.list();
+        },
+
+        list: function(){
+            this._view = new Admin.View.Articles.List();
+
+            var articles = new BlogKit.Collection.Articles();
+            this._view.setArticlesCollection( articles  );
+
+
+            return this._view.render().pipe(function(){
+                articles.fetch();
+            }.bind(this));
         }
+
+
     });
 
 })();

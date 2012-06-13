@@ -101,4 +101,31 @@
 
  #articles{
      border:1px solid transparent;
+
+     ul#articlesList{
+         margin:0;
+         li{
+             width: 100%;
+             list-style-type: none;
+             border-width: 1px 0;
+             border-top-color: fade(@panel-border-color, 20%);
+             border-bottom-color: fade(lighten(@panel-border-color, 50%), 50%);
+             border-style: solid;
+
+             font-size: @baseFontSize * 1.2;
+             height: @baseLineHeight * 1.2;
+             margin: 2px 0;
+             padding: 2px 0;
+
+             > div{
+                width: 100%;
+             }
+
+             &:hover{
+                background-color: fadeout(@text-highlight, 30%);
+
+             }
+
+         }
+     }
  }

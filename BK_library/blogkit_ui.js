@@ -28,8 +28,8 @@
 
     function BlogKitUI(){
         return {
-            invalidateUI: function(){
-                resizeAdjustment();
+            invalidateUI: function(area){
+                resizeAdjustment(area);
             }
         }
     }
@@ -42,10 +42,15 @@
         $(window).on('resize', _.debounce(resizeAdjustment, 100));
     }
 
-    function resizeAdjustment(){
-        _d('triggered');
+    function resizeAdjustment(area){
+        if(typeof area == 'undefined'){
+            area = null;
+        }else{
+            area = $(area);
+        }
         //1. deal with fill-to-parent
-        $('.fill-container').each(function(index, element){
+        var selector = '.fill-container';
+        (area == null ? $(selector) : area.find(selector)).each(function(index, element){
             var $container = $(element);
             if(!$container.layout('established')){
                 $container.layout();
@@ -53,11 +58,18 @@
         });
 
         //2. deal with vertical-alignment
-        $('.vertical-center > .inner-container').each(function(index, element){
+        selector = '.vertical-center > .inner-container';
+        (area == null ? $(selector) : area.find(selector)).each(function(index, element){
             var $element = $(element);
-            var height = parseInt($element.height());
-            $element.height(height).css('margin-top', -height/2);
-        })
+            $element.css('height', 'auto');
+            var height = parseInt($element.collapsedHeight());
+            $element.height(height).css({
+                'height' : height,
+                'margin-top' : -height/2
+            });
+
+        });
+
     }
 
     $(document).ready(initialize);

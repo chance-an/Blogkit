@@ -6913,3 +6913,24 @@ a.thumbnail:hover {
 #articles {
   border: 1px solid transparent;
 }
+#articles ul#articlesList {
+  margin: 0;
+}
+#articles ul#articlesList li {
+  width: 100%;
+  list-style-type: none;
+  border-width: 1px 0;
+  border-top-color: rgba(127, 46, 44, 0.2);
+  border-bottom-color: rgba(233, 194, 193, 0.5);
+  border-style: solid;
+  font-size: 15.6px;
+  height: 21.599999999999998px;
+  margin: 2px 0;
+  padding: 2px 0;
+}
+#articles ul#articlesList li > div {
+  width: 100%;
+}
+#articles ul#articlesList li:hover {
+  background-color: rgba(255, 231, 248, 0.7);
+}

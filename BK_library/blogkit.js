@@ -153,5 +153,11 @@
         console.log(message);
     };
 
+    _.extend(Function.prototype, {
+        bind: function(_this){
+            return _.bind(this, _this);
+        }
+    });
+
     $(document).ready(initialize);
 })();

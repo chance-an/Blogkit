@@ -69,6 +69,8 @@
         var diff = _getValue(e.css('marginRight')) + _getValue(e.css('marginLeft')) +
             _getValue(e.css('borderLeftWidth')) + _getValue(e.css('borderRightWidth')) ;
         e.width(containerWidth - diff);
+
+        $(window).trigger('layout');
     }, 100);
 
     function rearrange( $container ){
@@ -98,7 +100,7 @@
             this.find('.fill-container').andSelf().filter('.fill-container').each(function(index, element){
                 var $element = $(element);
                 rearrange( $element );
-                $(document).on('resize', (function($1){
+                $(window).on('resize', (function($1){
                     return function(){
                         return adjustLayout.apply($1, arguments);
                     }

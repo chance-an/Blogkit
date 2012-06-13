@@ -105,7 +105,7 @@ class ArticlesResource extends ArticleResource {
         }
 
         $statement = $dbh->prepare(<<<SQL
-        SELECT `title`, `id`
+        SELECT `title`, `id`, `author`
             FROM `articles`
             WHERE `author` = :user_id
 SQL
