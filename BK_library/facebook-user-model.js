@@ -40,7 +40,7 @@
                 deferred.resolve();
             }, this));
 
-            //2. chain the deferred objec to obtain profile picture url
+            //2. chain the deferred object to obtain profile picture url
             return deferred.pipe(function(){
                 var deferred = new $.Deferred();
                 FB.api('/' + profile_id + '/picture?type=large', _.bind(function(response){

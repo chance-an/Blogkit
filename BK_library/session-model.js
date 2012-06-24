@@ -19,6 +19,7 @@
         },
 
         valid: function(callback) {
+            //TODO need caching Facebook call results
             var signal = new $.Deferred();
 
             if(callback && typeof callback === 'function'){

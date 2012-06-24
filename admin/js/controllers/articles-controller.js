@@ -10,18 +10,23 @@
     BlogKit.namespace('Admin.Controller');
 
     Admin.Controller.Articles = Admin.Controller.AbstractController.extend({
+        name: 'articles',
+
         _view: null,
 
         initialize: function(){
         },
 
-        'default': function(){
+        beforeFilter: function(){
+        },
+
+        'user_default': function(){
             _d('Enter Articles:default');
 
             return this.list();
         },
 
-        list: function(){
+        user_list: function(){
             this._view = new Admin.View.Articles.List();
 
             var articles = new BlogKit.Collection.Articles();
@@ -31,9 +36,11 @@
             return this._view.render().pipe(function(){
                 articles.fetch();
             }.bind(this));
+        },
+
+        afterRender: function(){
+            getApplication().getNavigationBar().activate('articles');
         }
-
-
     });
 
 })();

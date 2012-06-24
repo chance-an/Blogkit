@@ -10,16 +10,21 @@
     BlogKit.namespace('Admin.Controller');
 
     Admin.Controller.Login = Admin.Controller.AbstractController.extend({
+        name: 'login',
         _view: null,
 
         initialize: function(){
             this._view = new Admin.View.Login();
         },
 
-        'default': function(){
+        'user_default': function(){
             _d('Enter Login:default');
 
             return this._view.render();
+        },
+
+        afterRender: function(){
+            getApplication().getNavigationBar().activate('login');
         }
     });
 

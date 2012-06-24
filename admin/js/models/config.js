@@ -28,7 +28,7 @@
                 logged_in : [
                     ['login', 'Log off', '#login'],
                     ['main', 'Dashboard', '#dashboard'],
-                    ['articles', 'Articles', '#article']
+                    ['articles', 'Articles', '#articles']
                 ]
             }
         });

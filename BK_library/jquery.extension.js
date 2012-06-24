@@ -38,6 +38,12 @@
     var pluginName = 'layout';
 
     var adjustLayout = _.debounce(function(){
+        //clear event if the element is removed from dom tree
+        if($(this).closest('html').length == 0){
+            $(window).off('resize', $(this).data('resizeHandler'));
+            return;
+        }
+
         var data = this.data( pluginName );
 
         var containerHeight= this.collapsedHeight();
@@ -100,11 +106,13 @@
             this.find('.fill-container').andSelf().filter('.fill-container').each(function(index, element){
                 var $element = $(element);
                 rearrange( $element );
-                $(window).on('resize', (function($1){
+                var resizeHandler = (function($1){
                     return function(){
                         return adjustLayout.apply($1, arguments);
                     }
-                })($element));
+                })($element);
+                $element.data('resizeHandler', resizeHandler);
+                $(window).on('resize', resizeHandler);
             });
 
             return this;

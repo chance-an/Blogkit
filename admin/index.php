@@ -10,14 +10,15 @@
 
 <!--    <link rel="stylesheet" type="text/css" href="style/Hell/bootstrap.css">-->
 <!--    <link rel="stylesheet" type="text/css" href="style/Hell/bootstrap-responsive.css">-->
-    <link rel="stylesheet" type="text/css" href="style/Hell/style.css">
+    <link rel="stylesheet" type="text/css" href="/admin/style/Hell/style.css">
     <link rel="stylesheet" type="text/css" href="/BK_library/css/blogkit.css">
-    <link rel="stylesheet" type="text/css" href="style/Hell/global.css">
+    <link rel="stylesheet" type="text/css" href="/admin/style/Hell/global.css">
 
 
     <script type="text/javascript" src="/3rd_party/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="/3rd_party/underscore-min.js"></script>
     <script type="text/javascript" src="/3rd_party/backbone-min.js"></script>
+    <script type="text/javascript" src="/3rd_party/backskin.js"></script>
 
     <!-- Import Blogkit lib -->
     <script type="text/javascript" src="/BK_library/blogkit.js"></script>
@@ -27,8 +28,6 @@
     <script type="text/javascript" src="/BK_library/session-model.js"></script>
     <script type="text/javascript" src="/BK_library/facebook-user-model.js"></script>
     <script type="text/javascript" src="/BK_library/article.js"></script>
-
-    <script type="text/javascript" src="js/abstract-controller.js"></script>
 
     <!--  -->
     <?php
@@ -48,7 +47,7 @@
                         continue;
                     };
 
-                    echo '<script type="text/javascript" src="js/'. $dir . $entry.'"></script> ';
+                    echo '<script type="text/javascript" src="/admin/js/'. $dir . $entry.'"></script> ';
                 }
             }
         }

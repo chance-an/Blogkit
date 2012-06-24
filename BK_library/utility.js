@@ -84,6 +84,17 @@ BlogKit.util.TemplateManager = (function(){
 
         },
 
+        downloadTemplateGroup: function(groupName){
+            var request = new $.Deferred();
+
+            if ( typeof _templateCache[groupName] === 'undefined'){
+                _downloadTemplate(groupName, request);
+            }else{
+                request.resolve();
+            }
+            return request;
+        },
+
         requestTemplate: function(template){
             var request = new $.Deferred();
             var templateID = _parseRequest(template);
@@ -101,5 +112,31 @@ BlogKit.util.TemplateManager = (function(){
         }
     }
 })();
+
+BlogKit.util.CamelCased = function(string){
+    if(typeof string !== 'string'){
+        return null;
+    }
+    string = string.replace(/\s{2,}/g, ' ');
+
+    return (_.map(string.split(' '), function(entry){
+        return entry.replace(/(^|_)[a-z]/gi, function(match){return match.toUpperCase()}).replace(/_/g, '');
+    })).join(' ');
+
+};
+
+
+BlogKit.util.Underscored = function(string){
+    if(typeof string !== 'string'){
+        return null;
+    }
+    string = string.replace(/\s{2,}/g, ' ');
+
+    return (_.map(string.split(' '), function(entry){
+        return entry.replace(/^[A-Z]/g, function(match){return match.toLowerCase()})
+            .replace(/([a-z])([A-Z])/g, function($, $1, $2){return $1 + '_' + $2.toLowerCase();});
+    })).join(' ');
+
+};
 
 
