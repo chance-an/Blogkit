@@ -76,7 +76,10 @@
             _getValue(e.css('borderLeftWidth')) + _getValue(e.css('borderRightWidth')) ;
         e.width(containerWidth - diff);
 
-        $(window).trigger('layout');
+        setTimeout(function(){
+            $(window).trigger('layout');
+        }, 10);
+
     }, 100);
 
     function rearrange( $container ){

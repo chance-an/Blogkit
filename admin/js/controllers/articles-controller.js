@@ -27,7 +27,7 @@
         },
 
         user_list: function(){
-            this._view = new Admin.View.Articles.List();
+            this._view = new Admin.View.Articles.List(this);
 
             var articles = new BlogKit.Collection.Articles();
             this._view.setArticlesCollection( articles  );
@@ -36,6 +36,13 @@
             return this._view.render().pipe(function(){
                 articles.fetch();
             }.bind(this));
+        },
+
+        user_edit: function(){
+            _d(arguments);
+            this._view = new Admin.View.Articles.Edit(this);
+
+            return this._view.render();
         },
 
         afterRender: function(){

@@ -76,6 +76,10 @@
          */
         getNavigationBar: function(){
             return this.primaryNavBarView;
+        },
+
+        getActionUrl: function(actionHash){
+            return this._getRootURL() + '#' + actionHash;
         }
     });
 

@@ -109,7 +109,24 @@ BlogKit.util.TemplateManager = (function(){
             return request.pipe(function(nomatterwhat){
                 return _templateCache[templateID.group][templateID.template];
             });
+        },
+
+        /**
+         * This is the (s)ynchronous version of requestTemplate. However, instead of downloading the template when absent,
+         * it will returns null. Sometimes useful to lessen the complexity of asynchronous programming model on client side.
+         * @param template
+         * @return {*}
+         */
+        requestTemplateS: function(template){
+            var templateID = _parseRequest(template);
+
+            if ( typeof _templateCache[templateID.group] === 'undefined'){
+                return null;
+            }
+
+            return _templateCache[templateID.group][templateID.template];
         }
+
     }
 })();
 
