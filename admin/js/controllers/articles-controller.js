@@ -38,11 +38,14 @@
             }.bind(this));
         },
 
-        user_edit: function(){
-            _d(arguments);
+        user_edit: function(article_id){
             this._view = new Admin.View.Articles.Edit(this);
 
-            return this._view.render();
+            return this._view.render().pipe(function(){
+
+            }.bind(this));
+
+
         },
 
         afterRender: function(){

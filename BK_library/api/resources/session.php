@@ -9,7 +9,7 @@
  * Examples listing
  * @uri /session
  */
-class SessionResource extends Resource {
+class SessionResource extends Tonic\Resource {
 
     function get($request) {
         $response = new Response($request);

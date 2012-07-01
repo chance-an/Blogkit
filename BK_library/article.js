@@ -13,6 +13,10 @@
 
         defaults: {
 
+        },
+
+        url: function(){
+            return BlogKit.getAPIRoot() + '/article/' + this.get('id');
         }
     });
 

@@ -9,17 +9,16 @@
  * Examples listing
  * @uri /article
  */
-class ArticleResource extends Resource {
+class ArticleResource extends Tonic\Resource {
 
-    function get($request) {
+    /**
+     * @method GET
+     * @param $article_id
+     * @return string
+     */
+    function get() {
 
-        $response = new Response($request);
-        $response->code = Response::OK;
-
-        $response->body = <<<END
-Ahh, the great outdoors!
-END;
-        return $response;
+        return "Ahh, the great outdoors!";
     }
 
 
@@ -36,13 +35,12 @@ function jsonRemoveUnicodeSequences($struct) {
 class ArticlesResource extends ArticleResource {
 
     /**
-     * @webservice_parm user_id
-     * @param $request
-     * @return Response
+     * @method GET
+     * @return string
      */
-    function get($request) {
+    function get() {
 
-        $response = new Response($request);
+        $response = new Tonic\Response();
 
         /**
          * @var $parameter_helper ParameterHelper
@@ -67,7 +65,7 @@ class ArticlesResource extends ArticleResource {
 
         if(empty($user_id)){
             //cannot get an id
-            $response->code = Response::PRECONDITIONFAILED;
+            $response->code = Tonic\Response::PRECONDITIONFAILED;
             return $response;
         }
 
@@ -85,9 +83,9 @@ class ArticlesResource extends ArticleResource {
         }
 
 
-        $response->code = Response::OK;
+        $response->code = Tonic\Response::OK;
         $response->body = $result_helper::getSuccessfulJSONResult($result);
-        $response->addHeader('Content-Type', $request->mimetypes['json']);
+        $response->contentType = $this->request->mimetypes['json'];
 
         return $response;
     }

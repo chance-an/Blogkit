@@ -90,7 +90,7 @@
                         $articleRow.find('a').attr('href', application.getActionUrl(
                             this._controller.name + '/edit/' + articleModel.get('id')));
                         index++;
-                        setTimeout(iteration, 10); //call next iteration after 1 ms, so the UI could get redrawn
+                        setTimeout(iteration, 10); //call next iteration after 10 ms, so the UI could get redrawn
                     }.bind(this);
 
                     var finalize = function(){

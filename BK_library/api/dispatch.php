@@ -1,32 +1,39 @@
 <?php
 require_once 'config.php';
-// load Tonic library
-require_once '../../3rd_party/tonic/tonic.php';
-
-require_once dirname(__FILE__).'/helper/helper.php';
-
-require_once dirname(__FILE__).'/resources/article.php';
-require_once dirname(__FILE__).'/resources/session.php';
-
 define('APP_ROOT', dirname(__FILE__).'/../../');
 
-// handle request
-$request = new Request(array(
-    'baseUri' => '/BK_library/api'
-));
-try {
-    $resource = $request->loadResource();
-    $response = $resource->exec($request);
+require_once 'helper/helper.php';
+require_once 'helper/database.php';
+require_once 'helper/parameter.php';
+require_once 'helper/result.php';
+require_once 'helper/session.php';
 
-} catch (ResponseException $e) {
-    switch ($e->getCode()) {
-        case Response::UNAUTHORIZED:
-            $response = $e->response($request);
-            $response->addHeader('WWW-Authenticate', 'Basic realm="Tonic"');
-            break;
-        default:
-            $response = $e->response($request);
-    }
-}
+
+// load Tonic
+require_once '../../3rd_party/tonic/Autoloader.php';
+
+$config = array(
+    'load' => array('resources/*.php'), // load resources
+    #'mount' => array('Tyrell' => '/nexus'), // mount in example resources at URL /nexus
+    #'cache' => new Tonic\MetadataCache('/tmp/tonic.cache') // use the metadata cache
+);
+
+$app = new Tonic\Application($config);
+
+#echo $app;
+
+$request = new Tonic\Request();
+
+#echo $request;
+
+$resource = $app->getResource($request);
+
+#echo $resource;
+
+$response = $resource->exec();
+
+#echo $response;
+
 $response->output();
+
 
