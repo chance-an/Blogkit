@@ -8,9 +8,15 @@ require_once 'helper/parameter.php';
 require_once 'helper/result.php';
 require_once 'helper/session.php';
 
+require_once 'models/model.php';
+require_once 'models/article.php';
+require_once 'models/acl.php';
+
 
 // load Tonic
 require_once '../../3rd_party/tonic/Autoloader.php';
+
+require_once 'exceptions.php';
 
 $config = array(
     'load' => array('resources/*.php'), // load resources

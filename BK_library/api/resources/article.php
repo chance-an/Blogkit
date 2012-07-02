@@ -7,7 +7,7 @@
 
 /**
  * Examples listing
- * @uri /article
+ * @uri /article/:id
  */
 class ArticleResource extends Tonic\Resource {
 
@@ -16,11 +16,30 @@ class ArticleResource extends Tonic\Resource {
      * @param $article_id
      * @return string
      */
-    function get() {
+    function get($article_id) {
 
-        return "Ahh, the great outdoors!";
+        $session_helper = Helper::load('session');
+
+        $current_user = $session_helper::getCurrentUser();
+
+        if( !empty($current_user) ){
+            $user_id = $current_user['id'];
+        }else{
+            throw new Tonic\ConditionException('Session lost');
+        }
+
+        $acl_model = new AclModel();
+        if(!$acl_model->editArticle($article_id, $user_id)){
+            throw new Tonic\PermissionDeniedException();
+        };
+        $article_model = new ArticleModel();
+        $article = $article_model->getArticle($article_id);
+
+        $data = $article->dump();
+
+        $result_helper = Helper::load('result');
+        return $result_helper->getSuccessfulJSONResult($data);
     }
-
 
 }
 
@@ -81,7 +100,6 @@ class ArticlesResource extends ArticleResource {
             $response->body = $result_helper::getErrorJSONResult($e);
             return $response;
         }
-
 
         $response->code = Tonic\Response::OK;
         $response->body = $result_helper::getSuccessfulJSONResult($result);
