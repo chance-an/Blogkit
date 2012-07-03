@@ -38,7 +38,11 @@ class ArticleResource extends Tonic\Resource {
         $data = $article->dump();
 
         $result_helper = Helper::load('result');
-        return $result_helper->getSuccessfulJSONResult($data);
+
+        $response = new Tonic\Response(Tonic\Response::OK, $result_helper->getSuccessfulJSONResult($data));
+        $response->contentType = $this->request->mimetypes['json'];
+
+        return $response;
     }
 
 }
