@@ -137,10 +137,36 @@
             var application = getApplication();
             var baseView = application.baseView;
 
-            return baseView.turnPageToTemplate('articles.edit').pipe(_.bind(function(params){
+            return $.when(baseView.turnPageToTemplate('articles.edit').pipe(_.bind(function(params){
                 var element = params[1];
                 this._contentArea =  element[0];
-            }, this));
+                BlogKitUI.invalidateUI();
+            }, this)),
+            (function(){
+                _d('Start loading CKEditor');
+                return getApplication().loadCKEditor().pipe(function(){
+                    _d('Loading CKEditor finished')
+                });
+            })())
+            .pipe(function(){
+                CKEDITOR.replace('article-content', {
+                    customConfig : ''
+                });
+            }.bind(this));
+
+        },
+
+        renderModel: function(){
+            var $contentArea = $(this._contentArea);
+            $contentArea.find('#article-title').html(this._article.get('title'));
+        },
+
+        setArticle: function(articleModel){
+            this._article = articleModel;
+            this._article.bind('read', this.renderModel.bind(this));
+            this._article.bind('read', function(){
+                _d('read');
+            })
         }
     });
 })();

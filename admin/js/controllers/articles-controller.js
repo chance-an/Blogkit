@@ -42,7 +42,10 @@
             this._view = new Admin.View.Articles.Edit(this);
 
             return this._view.render().pipe(function(){
+                var article = new BlogKit.Model.Article({id: article_id});
+                this._view.setArticle(article);
 
+                article.fetch();
             }.bind(this));
 
 

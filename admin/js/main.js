@@ -20,7 +20,8 @@
         var signals = [
             BlogKit.ready(),
             BlogKit.util.TemplateManager.initialize(rootURL + 'template'),
-            this._setupBasic()
+            this._setupBasic(),
+            this._setupCKEditor()
         ];
         $.when.apply(null, signals).done(function(){
             Backbone.history.start()
@@ -59,7 +60,14 @@
                 return this.primaryNavBarView.render();
             }.bind(this));
 
+
             return request;
+        },
+
+        _setupCKEditor: function(){
+            window['CKEDITOR_BASEPATH'] = this._getRootURL() + '../3rd_party/ckeditor/';
+
+            return (new $.Deferred()).resolve();
         },
 
         getRouter: function(){
@@ -80,6 +88,19 @@
 
         getActionUrl: function(actionHash){
             return this._getRootURL() + '#' + actionHash;
+        },
+
+
+        loadCKEditor: function(){
+            if (typeof CKEDITOR != 'undefined'){
+                return (new $.Deferred()).resolve();
+            }
+
+            return $.ajax({
+                url: this._getRootURL() + '../3rd_party/ckeditor/ckeditor.js',
+                dataType: "script",
+                cache: true
+            });
         }
     });
 

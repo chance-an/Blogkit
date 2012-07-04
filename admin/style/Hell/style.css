@@ -6934,3 +6934,6 @@ a.thumbnail:hover {
 #articles ul#articlesList li:hover {
   background-color: rgba(255, 231, 248, 0.7);
 }
+#article textarea {
+  width: 100%;
+}

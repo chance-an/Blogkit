@@ -75,42 +75,7 @@
                     deferredObject.done(func);
                 }
                 return deferredObject;
-            },
-
-            'Controller': (function(){
-                function BaseController(){
-                    this._created = (new Date()).getTime();
-                }
-                _.extend(BaseController.prototype, {
-                    _created: null,
-                    'default' : function(){}
-                });
-
-                BaseController.extend = function(properties){
-                    var instance = undefined;
-                    var klass = function Controller(){
-                        if(instance !== undefined ){ //try to simulate Singleton
-                            return instance;
-                        }
-                        BaseController.apply(this, arguments);
-                        if(this['initialize'] !== undefined){
-                            this['initialize'].apply(this, arguments);
-                        }
-
-                        instance = this;
-                        return instance;
-                    };
-
-                    klass.prototype = new BaseController();
-                    _.extend(klass.prototype, properties);
-
-                    klass.prototype.constructor = klass;
-                    klass.prototype.classId = _.uniqueId('controller_');
-
-                    return klass;
-                };
-                return BaseController;
-            })()
+            }
         }
     }
 

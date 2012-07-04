@@ -9,7 +9,10 @@
     'use strict';
     BlogKit.namespace('BlogKit.Model');
 
-    BlogKit.Model.Article = Backbone.Model.extend({
+    BlogKit.Model.Article = Backskin.Model.extend({
+
+        initialize: function(){
+        },
 
         defaults: {
 
@@ -18,6 +21,7 @@
         url: function(){
             return BlogKit.getAPIRoot() + '/article/' + this.get('id');
         }
+
     });
 
     BlogKit.namespace('BlogKit.Collection');
