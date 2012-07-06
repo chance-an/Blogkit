@@ -1,12 +1,14 @@
-@import '../bootstrap/less/bootstrap.less';
-@import '../bootstrap/less/responsive.less';
-
 @button-text: #B50E81;
 @text-highlight: #FFE7F8;
 @panel-color: #E889A6;
 @panel-border-color: #7F2E2C;
 
 @well-color: #FFE5F7;
+
+@import '../bootstrap/less/bootstrap.less';
+@import '../bootstrap/less/responsive.less';
+
+
 .well{
     background-color: @well-color;
     border-color: #eee darken(#eee, 20%) darken(#eee, 20%) #eee;
@@ -131,7 +133,37 @@
  }
 
 #article{
+    table{
+        width: 100%;
+        height: 100%;
+
+        tr:first-child{
+            height: 30px;
+        }
+
+        tr.controls{
+            height: 50px;
+        }
+
+        tr.actions{
+            td{
+                height: @baseLineHeight + 22;
+                padding: 5px 0;
+                > fieldset{
+                    padding: 5px;
+                    background-color: fadeout(@panel-color, 65%);
+                    .border-radius(5px);
+                    > div{
+                        border: 1px solid transparent;
+                    }
+                }
+
+            }
+        }
+    }
+
     textarea {
         width: 100%;
+        height: auto;
     }
 }

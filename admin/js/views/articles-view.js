@@ -7,6 +7,8 @@
 (function(){
     'use strict';
 
+    var uiEventBound = false;
+
     BlogKit.namespace('Admin.View.Articles');
 
     Admin.View.Articles.List = Backbone.View.extend({
@@ -26,13 +28,16 @@
                 var element = params[1];
                 this._contentArea =  element[0];
                 BlogKitUI.invalidateUI();
-                $(window).bind('layout', (function(_view){
-                    return function(){
-                        _view.Events['layout-finished'].apply(this, [_view].concat(arguments));
-                        //so this function still receive event issuer as `this` pointer,
-                        // and also receives the view object for reference
-                    };
-                })(this));
+                if(!uiEventBound){
+                    uiEventBound = true;
+                    $(window).bind('layout', (function(_view){
+                        return function(){
+                            _view.Events['layout-finished'].apply(this, [_view].concat(arguments));
+                            //so this function still receive event issuer as `this` pointer,
+                            // and also receives the view object for reference
+                        };
+                    })(this));
+                }
             }, this));
         },
 
@@ -55,6 +60,7 @@
                     return (new $.Deferred()).resolve();
                 }
                 if(processing){
+                    _d('queued');
                     queued_execution++;
                     return (new $.Deferred()).resolve();
                 }
@@ -128,49 +134,136 @@
         _contentArea: null,
         _article: null,
         _controller: null,
+        _ckeditorReady: null,
+        _lastEditorHeight: 0,
+        _initializeSignal: null,
 
         initialize: function(controller){
             this._controller = controller;
+            this._ckeditorReady = new $.Deferred();
+            this._initializeSignal = new $.Deferred();
         },
 
         render: function(){
             var application = getApplication();
             var baseView = application.baseView;
 
-            return $.when(baseView.turnPageToTemplate('articles.edit').pipe(_.bind(function(params){
+            var uiReady = baseView.turnPageToTemplate('articles.edit').pipe(_.bind(function(params){
                 var element = params[1];
                 this._contentArea =  element[0];
-                BlogKitUI.invalidateUI();
-            }, this)),
-            (function(){
-                _d('Start loading CKEditor');
-                return getApplication().loadCKEditor().pipe(function(){
-                    _d('Loading CKEditor finished')
-                });
-            })())
-            .pipe(function(){
 
-                if(CKEDITOR.instances['article-content']){
-                    CKEDITOR.instances['article-content'].destroy(true);
-                }
-                CKEDITOR.replace('article-content', {
-                    customConfig : ''
-                });
+            }, this));
+
+            $.when(uiReady, this._initializeSignal).done(
+                this.bindEvents.bind(this)
+            );
+
+            return uiReady;
+        },
+
+        bindEvents: function(){
+            var $contentArea = $(this._contentArea);
+            $.each([
+                ['click', 'input[type="submit"]', 'save']
+            ], function(i, e){
+                $contentArea.find(e[1]).on(e[0], this.Events[e[2]].bind(this));
             }.bind(this));
-
         },
 
         renderModel: function(){
             var $contentArea = $(this._contentArea);
             $contentArea.find('#article-title').html(this._article.get('title'));
+            $contentArea.find('#article-content').html(this._article.get('content'));
+
+            return this.redrawCKEditor().done(function(){
+                this._initializeSignal.resolve();
+            }.bind(this));
         },
 
         setArticle: function(articleModel){
             this._article = articleModel;
             this._article.bind('read', this.renderModel.bind(this));
-            this._article.bind('read', function(){
-                _d('read');
-            })
+        },
+
+        redrawCKEditor: function(){
+            return getApplication().loadCKEditor().pipe(function(){
+                var deferred = new $.Deferred();
+                if(CKEDITOR.instances['article-content']){
+                    CKEDITOR.instances['article-content'].on('destroy', _.once(function(){
+                        $('#cke_article-content').remove();
+                        deferred.resolve();
+                    }));
+                    CKEDITOR.instances['article-content'].destroy(true);
+                }else{
+                    deferred.resolve();
+                }
+                return deferred;
+            }).pipe(function(){
+                this._ckeditorReady = new $.Deferred();
+
+                CKEDITOR.replace('article-content', {
+                    customConfig : ''
+                }).on('instanceReady', function(){
+                    this._ckeditorReady.resolve();
+                }.bind(this));
+
+                return this._ckeditorReady;
+            }.bind(this))
+            .pipe(function(){
+                //adjust size if window is resized;
+                var closure = {
+                    id : CKEDITOR.instances['article-content'].id
+                };
+
+                var handler = (function(c, view){
+                    return function(){
+                        if(!CKEDITOR.instances['article-content'] || CKEDITOR.instances['article-content'].id != c.id ||
+                            $('#cke_article-content').length == 0){
+                            //unload event, since there might be other handler attached somewhere else
+                            $(getApplication().baseView).off('afterResize', c.handler);
+                            return (new $.Deferred()).reject();
+                        }
+                        //else, launch the real event handler
+                        view.Events['adjustCKEditorSize'].apply(view, arguments);
+                    }
+                })(closure, this);
+                closure.handler = handler;
+                $(getApplication().baseView).on('afterResize', handler);
+                this.Events['adjustCKEditorSize'].apply(this, arguments);
+            }.bind(this));
+
+        },
+
+        Events: {
+            adjustCKEditorSize:_.throttle(function(){
+                return function(){
+                    var $textarea = $(this._contentArea).find('#article-content');
+                    var $container = $textarea.parent();
+                    var $ui = $container.children('#cke_article-content').hide();
+                    $textarea.css('visibility', 'visible').show();
+
+                    var newHeight = $container.height();
+                    if( newHeight != this._lastEditorHeight){
+                        this._lastEditorHeight = newHeight;
+                        var width = $container.width();
+                        var fix = function(){
+                            CKEDITOR.instances['article-content'].removeListener('resize', fix); //1 time only
+                            var diff = $('#cke_article-content').height() - newHeight;
+                            CKEDITOR.instances['article-content'].resize(width, newHeight - diff);
+                        };
+
+                        CKEDITOR.instances['article-content'].on('resize', fix);
+                        CKEDITOR.instances['article-content'].resize(width, newHeight);
+                    }
+
+                    $ui.show();
+                    $textarea.css('visibility', 'hidden').hide();
+                }
+            }(), 50),
+
+            save: function(){
+                _d('save');
+            }
         }
     });
 })();

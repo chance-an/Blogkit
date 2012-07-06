@@ -11,21 +11,23 @@
         if(target === undefined){
             target = this;
         }
-       //http://stackoverflow.com/questions/7909956/how-to-calculate-an-elements-height-considering-collapsed-margins
-       var $wrapper = $('<div />'),
+        //http://stackoverflow.com/questions/7909956/how-to-calculate-an-elements-height-considering-collapsed-margins
+        var $wrapper = $('<div />'),
          $target = $(target);
 
-       $wrapper.insertAfter($target);
-       $target.appendTo($wrapper);
-       $wrapper.css({
+        $wrapper.insertAfter($target);
+        var originalDisplay = $target.css('display');
+        $target.css('display', 'none');
+        $wrapper.append(target.clone(false));
+        $wrapper.css({
            borderTop: '1px solid transparent',
            borderBottom: '1px solid transparent'
-       });
-       var result = $wrapper.outerHeight() - 2;
-       $target.insertAfter($wrapper);
-       $wrapper.remove();
+        });
+        var result = $wrapper.outerHeight() - 2;
+        $wrapper.remove();
+        $target.css('display', originalDisplay);
 
-       return Math.max(result, $target.outerHeight());
+        return Math.max(result, $target.outerHeight());
     };
 
 
