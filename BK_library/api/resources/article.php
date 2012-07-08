@@ -17,7 +17,6 @@ class ArticleResource extends Tonic\Resource {
      * @return string
      */
     function get($article_id) {
-
         $session_helper = Helper::load('session');
 
         $current_user = $session_helper::getCurrentUser();
@@ -36,7 +35,6 @@ class ArticleResource extends Tonic\Resource {
         $article = $article_model->getArticle($article_id);
 
         $data = $article->dump();
-
         $result_helper = Helper::load('result');
 
         $response = new Tonic\Response(Tonic\Response::OK, $result_helper->getSuccessfulJSONResult($data));
@@ -45,6 +43,22 @@ class ArticleResource extends Tonic\Resource {
         return $response;
     }
 
+    /**
+     * @method PUT
+     * @param $article_id
+     * @return string
+     */
+    function update($article_id) {
+        $data = json_decode($this->request->data, true);
+        $article_model = new ArticleModel();
+        $article_model->save($article_id, $data);
+
+        $result_helper = Helper::load('result');
+        $response = new Tonic\Response(Tonic\Response::OK, $result_helper->getSuccessfulJSONResult(null) );
+        $response->contentType = $this->request->mimetypes['json'];
+
+        return $response;
+    }
 }
 
 function jsonRemoveUnicodeSequences($struct) {
@@ -55,7 +69,7 @@ function jsonRemoveUnicodeSequences($struct) {
  * Examples listing
  * @uri /articles
  */
-class ArticlesResource extends ArticleResource {
+class ArticlesResource extends Tonic\Resource {
 
     /**
      * @method GET

@@ -101,6 +101,22 @@
                 dataType: "script",
                 cache: true
             });
+        },
+
+        showMessage: function(message){
+
+            var $messageBox = $('#message-box');
+            $messageBox.modal('show');
+            $messageBox.find('.modal-body').html(message);
+
+            var $deferred = new $.Deferred();
+            var notifier = function(){
+                $deferred.resolve();
+                $messageBox.off('hidden', notifier);
+            };
+
+            $messageBox.on('hidden', notifier);
+            return $deferred;
         }
     });
 
@@ -109,6 +125,11 @@
      */
     function initialize(){
         _application = new Admin.Application();
+    }
+
+    function isDeferred(suspiciousObject){
+        //duck-typing
+        return _.isObject(suspiciousObject) && suspiciousObject['promise'] && typeof suspiciousObject['promise'] == 'function'
     }
 
     window.getApplication = function(){

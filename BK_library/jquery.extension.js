@@ -141,3 +141,115 @@
     }
 
 })(jQuery);
+
+//free-edit
+(function(){
+    var pluginName = 'freeEdit';
+
+    var methods = {
+        init: function(){
+            var $this = $(this);
+            var inputDummy = createInputDummy();
+            var freeEditAgent = new FreeEditAgent($this, inputDummy);
+
+            $this.data(pluginName, freeEditAgent);
+            inputDummy.data(pluginName, freeEditAgent);
+            $this.after(inputDummy);
+
+            freeEditAgent.update($this.text());
+
+            $this.on('click', Events['edit']);
+            inputDummy.on('blur', Events['update']);
+            inputDummy.on('keypress', function(event){
+                if(event.keyCode == 13){ //`enter` key
+                    Events['update'].apply(this, arguments);
+                }
+            });
+        }
+    };
+
+    $.fn[pluginName] = function(method){
+
+        if ( methods[method] ) {
+            return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
+        } else if ( typeof method === 'object' || ! method ) {
+            return methods.init.apply( this, arguments );
+        } else {
+            $.error( 'Method ' +  method + ' does not exist on jQuery.' + pluginName );
+        }
+    };
+
+
+    function createInputDummy(){
+        var $input = $('<input type="text"/>');
+        $input.css({
+            display: 'none',
+            backgroundColor: 'transparent'
+        });
+        return $input;
+    }
+
+
+    function measure($element){
+        //measure it in the auxiliary div
+        var measure = $('#meausre');
+        if(measure.length == 0){
+            measure = $('<div id="measure"></div>');
+            measure.css({
+                position: 'absolute',
+                visibility: 'hidden',
+                top: 0,
+                left: 0
+            });
+            $('body').append(measure);
+        }
+
+        $.each(['font-family', 'font-size', 'font-weight', 'line-height', 'font-style'], function(i, propertyName){
+            measure.css(propertyName, $element.css(propertyName));
+        });
+        measure.html($element.html());
+        return measure.width();
+    }
+
+    function FreeEditAgent($label, $input){
+        this.$label = $label;
+        this.$input = $input;
+        this.value = $label.text();
+    }
+
+    FreeEditAgent.prototype = $.extend(FreeEditAgent.prototype, {
+        update: function(text){
+            this.value = text;
+            this.$label.html(this.value.replace(/ /g, '&nbsp;') );
+            this.$input.val(this.value);
+
+            var instance = this;
+            $.each(['font-family', 'font-size', 'font-weight', 'line-height', 'height',
+                'padding-top','padding-right', 'padding-bottom', 'padding-left',
+                'margin-top', 'margin-right', 'margin-bottom', 'margin-left'], function(i, propertyName){
+                instance.$input.css(propertyName, instance.$label.css(propertyName));
+            });
+
+            this.$input.css('width', measure(this.$label));
+        }
+    });
+
+    var Events = {
+        'edit': function(){
+            var $this = $(this);
+            var agent = $(this).data(pluginName);
+            agent.update($this.text());
+            agent.$label.hide();
+            agent.$input.show().focus();
+        },
+
+        'update': function(){
+            var $this = $(this);
+            var agent = $(this).data(pluginName);
+            agent.update($this.val());
+            agent.$input.hide();
+            agent.$label.show().trigger('update', agent.value);
+        }
+    }
+
+}());

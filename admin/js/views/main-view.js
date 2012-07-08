@@ -43,6 +43,10 @@
         _setupEvent: _.once(function(){
             var func = _.debounce(_.bind(this.resize, this));
             $(window).resize( func );
+
+            $('.free-edit').livequery(function(){
+                $(this).freeEdit();
+            });
             func();
         }),
 

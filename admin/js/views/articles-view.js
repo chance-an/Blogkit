@@ -164,7 +164,8 @@
         bindEvents: function(){
             var $contentArea = $(this._contentArea);
             $.each([
-                ['click', 'input[type="submit"]', 'save']
+                ['click', 'input[type="submit"]', 'save'],
+                ['update', '#article-title', 'titleUpdate']
             ], function(i, e){
                 $contentArea.find(e[1]).on(e[0], this.Events[e[2]].bind(this));
             }.bind(this));
@@ -235,6 +236,10 @@
         },
 
         Events: {
+            titleUpdate: function(event, value){
+                this._article.set({title: value});
+            },
+
             adjustCKEditorSize:_.throttle(function(){
                 return function(){
                     var $textarea = $(this._contentArea).find('#article-content');
@@ -261,9 +266,25 @@
                 }
             }(), 50),
 
-            save: function(){
-                _d('save');
-            }
+            save:_.debounce(function(){
+                var editor = CKEDITOR.instances['article-content'];
+                this._article.set({'content': editor.getData()}, {silent: true});
+
+                var deferred = new $.Deferred();
+                this._article.save(this._article.changedAttributes() || {}, {
+                    success: function(){
+                        getApplication().showMessage("Article saved successfully.").always(function(){
+                            deferred.resolve();
+                        });
+                    },
+                    error: function(model, xhr, options){
+                        var error = xhr.statusText;
+                        getApplication().showMessage(error).always(function(){
+                            deferred.reject();
+                        });
+                    }
+                });
+            }, 500, true)
         }
     });
 })();

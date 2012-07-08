@@ -8,6 +8,7 @@
 class Model{
 
     private $_model_properties;
+    protected $non_update_attributes = array();
 
     function __construct(){
         $reflect = new ReflectionClass($this);
@@ -63,6 +64,13 @@ class Model{
         return preg_replace_callback('/([A-Z])/', function($c){
             return "_" . strtolower($c[1]);
         }, $str);
+    }
+
+    public function filter_attributes_to_update(&$values){
+        $prohibited_attributes = array_fill_keys($this->non_update_attributes, 1);
+        $values = array_diff_key($values, $prohibited_attributes);
+        $values = array_intersect_key($values, array_flip($this->_model_properties));
+        return $values;
     }
 }
  

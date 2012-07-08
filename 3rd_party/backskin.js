@@ -161,9 +161,9 @@
                         this.__fetchSuccessCallback = null;
                         this.__fetchErrorCallback = null;
 
-                        if(response.error){
+                        if(!response || response.error){
                             this.__fetchErrorCallback = function(){
-                                this.trigger('error', response.error);
+                                this.trigger('error', (response && response.error) || response);
                             }.bind(this);
                             return {};
                         }

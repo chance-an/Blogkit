@@ -6800,6 +6800,15 @@ a.thumbnail:hover {
   border-color: #ddd;
   border-color: rgba(0, 0, 0, 0.15);
 }
+.modal-footer {
+  text-align: center;
+}
+.modal-footer .btn {
+  float: inherit;
+}
+.modal-footer a.btn {
+  width: 30%;
+}
 #mainTabPanelArea :first-child.nav-tabs {
   margin-top: -15px;
   margin-bottom: 0px;

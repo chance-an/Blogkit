@@ -19,6 +19,8 @@
     <script type="text/javascript" src="/3rd_party/underscore-min.js"></script>
     <script type="text/javascript" src="/3rd_party/backbone-min.js"></script>
     <script type="text/javascript" src="/3rd_party/backskin.js"></script>
+    <script type="text/javascript" src="/3rd_party/bootstrap/bootstrap-modal.js"></script>
+    <script type="text/javascript" src="/3rd_party/jquery.livequery.js"></script>
 
     <!-- Import Blogkit lib -->
     <script type="text/javascript" src="/BK_library/blogkit.js"></script>
